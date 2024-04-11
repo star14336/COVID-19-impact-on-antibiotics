@@ -1,0 +1,89 @@
+class,jo,prod,category
+611,1842,lincomycin hydrochloride,Ketolides
+611,2291,sodium fusidate,Other
+611,2472,vancomycin hydrochloride,Glycopeptides
+611,4129,linezolid,Amphenicols
+613,1391,cycloserine,Other
+613,2239,rifampicin,Other
+613,3644,rifabutin,Other
+613,5195,ethambutol hydrochloride,Other
+614,1127,azithromycin,Macrolides
+614,2253,roxithromycin,Macrolides
+615,1495,doxycycline hydrate,Tetracyclines
+615,1497,doxycycline hyclate hydrate,Tetracyclines
+615,1959,minocycline hydrochloride,Tetracyclines
+615,2367,tetracycline hydrochloride,Tetracyclines
+618,1081,amoxicillin,Penicillins
+618,1252,cefaclor hydrate,Cephalosporins
+618,1253,cefadroxil,Cephalosporins
+618,1259,cefdinir,Cephalosporins
+618,1260,cefditoren pivoxil,Cephalosporins
+618,1263,cefixime hydrate,Cephalosporins
+618,1279,cefpodoxime proxetil,Cephalosporins
+618,1280,cefprozil,Cephalosporins
+618,1281,cefroxadine,Cephalosporins
+618,1289,cefuroxime axetil (as cefuroxim,Cephalosporins
+618,1294,cephalexin,Cephalosporins
+618,1301,cefradine hydrate,Cephalosporins
+618,1634,fosfomycin trometamol (as fosfomycin,Other
+618,1931,methylol cephalexin lysinate,Cephalosporins
+618,2337,sultamicillin tosylate (as sultamicillin,Penicillins
+618,5363,clavulanate potassium,Penicillins
+618,3800,pivoxil sulbactam,Penicillins
+618,4520,rifaximin,Other
+618,4744,cefcapene pivoxil hydrochloride hydrate,Cephalosporins
+618,5893,ampicillin,Penicillins
+619,1349,clarithromycin,Macrolides
+619,1354,clindamycin hydrochloride,Ketolides
+619,3110,metronidazole,Other
+611,1155,benzathine penicillin G,Penicillins
+611,2349,teicoplanin,Glycopeptides
+611,5671,daptomycin,Other
+612,1068,amikacin sulfate,Aminoglycosides
+612,2408,tobramycin,Aminoglycosides
+612,4842,colistin sodium methanesulfonate,Polypeptides
+612,7170,avibactam sodium (as avibactam,Cephalosporins
+613,2321,streptomycin sulfate,Aminoglycosides
+616,1085,amphotericin B(liposomal),Other
+616,2103,pentamidine isethionate,Other
+617,1406,daunorubicin hydrochloride,Other
+617,1494,doxorubicin hydrochloride,Other
+617,1527,epirubicin hydrochloride,Other
+617,1730,idarubicin hydrochloride,Other
+617,1964,mitomycin C,Other
+618,1082,amoxicillin sodium (as amoxicillin,Penicillins
+618,1086,ampicillin sodium,Penicillins
+618,1254,cefamandole nafate,Cephalosporins
+618,1257,cefazolin sodium,Cephalosporins
+618,1258,cefbuperazone sodium,Cephalosporins
+618,1261,cefepime hydrochloride hydrate,Cephalosporins
+618,1265,cefmetazole sodium,Cephalosporins
+618,1266,cefminox sodium,Cephalosporins
+618,1267,cefodizime sodium,Cephalosporins
+618,1271,cefotaxime sodium,Cephalosporins
+618,1272,cefotetan disodium (as cefotetan,Cephalosporins
+618,1273,cefotiam hydrochloride,Cephalosporins
+618,1275,cefoxitin sodium,Cephalosporins
+618,1277,cefpiramide sodium,Cephalosporins
+618,1283,ceftazidime hydrate,Cephalosporins
+618,1285,ceftezole sodium,Cephalosporins
+618,1287,ceftizoxime sodium,Cephalosporins
+618,1288,ceftriaxone sodium hydrate,Cephalosporins
+618,1290,cefuroxime sodium,Cephalosporins
+618,1300,cephazedone sodium,Cephalosporins
+618,1595,flomoxef sodium,Cephalosporins
+618,1651,gentamicin sulfate,Aminoglycosides
+618,1907,meropenem,Carbapenems
+618,2007,netilmicin sulfate,Aminoglycosides
+618,3289,amoxicillin sodium,Penicillins
+618,3293,cilastatin sodium (as cilastatin,Carbapenems
+618,3295,piperacillin sodium,Penicillins
+618,3299,cefoperazone sodium,Cephalosporins
+618,3608,nafcillin sodium,Penicillins
+618,4477,ertapenem sodium (as ertapenem,Carbapenems
+618,4953,tigecycline,Tetracyclines
+618,5932,doripenem monohydrate (as doripenem,Carbapenems
+618,6597,ceftolozane sulfate (as ceftolozane,Cephalosporins
+618,8000,cefepime hydrochloride hydrate·L-arginine (as cefepime hydrochloride,Cephalosporins
+619,1356,clindamycin phosphate,Ketolides
+615,1310,chloramphenicol,Amphenicols
