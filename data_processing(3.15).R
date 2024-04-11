@@ -1622,6 +1622,18 @@ medicine_result_anti2$date <- as.Date(paste(as.character(medicine_result_anti2$d
 
 ###각 성분별 분류
 {
+  ##total
+total <- medicine_result_anti %>% 
+    group_by(USE_YEAR,USE_MONTH) %>% 
+    summarise(category_pres = sum(pres), category_pt = sum(pt))
+  
+  #날짜 만들기
+  total$date = paste0(total2$USE_YEAR,total$USE_MONTH)
+  total$date <- as.Date(paste(as.character(total$date), '01'), format='%Y%m%d')
+  
+  
+    
+    
   ##penicillin
 peni <- medicine_result_anti2 %>% 
   filter(category == "Penicillins")
@@ -1664,6 +1676,46 @@ other <- medicine_result_anti2 %>%
 options(scipen = 5) #과학적 스케일 적용
 
 #성분별 그래프
+##전체
+ggplot(data=peni, aes(x = date, y = category_pt)) + 
+  geom_point(aes(color="Black"), size=1.5) +
+  geom_line(aes(color="Black")) +
+  geom_point(data=cepha, aes(x = date, y = category_pt, color = "Blue"), size=1.5) +
+  geom_line(data=cepha, aes(x = date, y = category_pt, color = "Blue")) +
+  geom_point(data=tetra, aes(x = date, y = category_pt, color = "Red"), size=1.5) +
+  geom_line(data=tetra, aes(x = date, y = category_pt, color = "Red")) +
+  geom_point(data=amino, aes(x = date, y = category_pt, color = "Green"), size=1.5) +
+  geom_line(data=amino, aes(x = date, y = category_pt, color = "Green")) +
+  geom_point(data=amphe, aes(x = date, y = category_pt, color = "Purple"), size=1.5) +
+  geom_line(data=amphe, aes(x = date, y = category_pt, color = "Purple")) +
+  geom_point(data=glyco, aes(x = date, y = category_pt, color = "Brown"), size=1.5) +
+  geom_line(data=glyco, aes(x = date, y = category_pt, color = "Brown")) +
+  geom_point(data=keto, aes(x = date, y = category_pt, color = "Gray"), size=1.5) +
+  geom_line(data=keto, aes(x = date, y = category_pt, color = "Gray")) +
+  geom_point(data=macro, aes(x = date, y = category_pt, color = "Orange"), size=1.5) +
+  geom_line(data=macro, aes(x = date, y = category_pt, color = "Orange")) +
+  geom_point(data=other, aes(x = date, y = category_pt, color = "Pink"), size=1.5) +
+  geom_line(data=other, aes(x = date, y = category_pt, color = "Pink")) +
+  geom_point(data=total, aes(x = date, y = category_pt, color = "turquoise"), size=1.5) +
+  geom_line(data=total, aes(x = date, y = category_pt, color = "turquoise")) +
+  geom_hline(yintercept=0, linetype="solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
+  geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
+  scale_y_continuous(name="Incidence rate", limits = c(0,10000000)) +
+  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
+  scale_color_manual(values=c("Black", "Blue", "Red", "Green", "Purple", "Brown", "Gray", "Orange", "Pink","turquoise"),
+                     labels=c("Peni", "Cepha", "Tetra", "Amino", "Amphe", "Glyco", "Keto", "Macro", "Other","Total")) +
+  theme_gray(20) +
+  theme(panel.background=element_blank(),
+        panel.grid.major=element_line(color="grey90", size=0.5),
+        axis.ticks=element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.y = element_text(face = 'bold'),
+        axis.title.y = element_text(face = 'bold'),
+        plot.title=element_text(size=rel(1.0)),
+        legend.title=element_blank())
+
+
 ##penicillins
 ggplot(data=peni, aes(x = date, y = category_pt)) + 
   geom_point(color="black", size=1.5) +
