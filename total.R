@@ -31,13 +31,13 @@ medicine_result_anti2$date <- as.Date(paste(as.character(medicine_result_anti2$d
 ###각 성분별 분류
 {
   ##total
-  total <- medicine_result_anti %>% 
+  anti <- medicine_result_anti %>% 
     group_by(USE_YEAR,USE_MONTH) %>% 
     summarise(category_pres = sum(pres), category_pt = sum(pt))
   
   #날짜 만들기
-  total$date = paste0(total$USE_YEAR,total$USE_MONTH)
-  total$date <- as.Date(paste(as.character(total$date), '01'), format='%Y%m%d')
+  anti$date = paste0(anti$USE_YEAR,anti$USE_MONTH)
+  anti$date <- as.Date(paste(as.character(anti$date), '01'), format='%Y%m%d')
   
   ##penicillin
   peni <- medicine_result_anti2 %>% 
@@ -101,15 +101,15 @@ ggplot(data=peni, aes(x = date, y = category_pt)) +
   geom_line(data=macro, aes(x = date, y = category_pt, color = "Orange")) +
   geom_point(data=other, aes(x = date, y = category_pt, color = "Pink"), size=1.5) +
   geom_line(data=other, aes(x = date, y = category_pt, color = "Pink")) +
-  geom_point(data=total, aes(x = date, y = category_pt, color = "turquoise"), size=1.5) +
-  geom_line(data=total, aes(x = date, y = category_pt, color = "turquoise")) +
+  geom_point(data=anti, aes(x = date, y = category_pt, color = "turquoise"), size=1.5) +
+  geom_line(data=anti, aes(x = date, y = category_pt, color = "turquoise")) +
   geom_hline(yintercept=0, linetype="solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
   scale_y_continuous(name="patient number", limits = c(0,10000000)) +
   scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
   scale_color_manual(values=c("Black", "Blue", "Red", "Green", "Purple", "Brown", "Gray", "Orange", "Pink","turquoise"),
-                     labels=c("Peni", "Cepha", "Tetra", "Amino", "Amphe", "Glyco", "Keto", "Macro", "Other","Total")) +
+                     labels=c("Peni", "Cepha", "Tetra", "Amino", "Amphe", "Glyco", "Keto", "Macro", "Other","Total(anti)")) +
   theme_gray(20) +
   theme(panel.background=element_blank(),
         panel.grid.major=element_line(color="grey90", size=0.5),
