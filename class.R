@@ -695,7 +695,7 @@ ggplot(data = P_anti, aes(x = date, y = category_pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 10000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = "%Y%M", limits = as.Date(c('2018-01-01','2023-09-30'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
