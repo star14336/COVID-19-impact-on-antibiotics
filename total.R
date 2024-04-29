@@ -77,6 +77,20 @@ medicine_result_anti2$date <- as.Date(paste(as.character(medicine_result_anti2$d
 }
 
 
+#csv파일로 저장
+write.csv(anti, "MEDICINE/data/total/anti.csv")
+write.csv(peni, "MEDICINE/data/total/penicillin.csv")
+write.csv(cepha, "MEDICINE/data/total/cephalosporins.csv")
+write.csv(tetra, "MEDICINE/data/total/tetracyclines.csv")
+write.csv(macro, "MEDICINE/data/total/macrolides.csv")
+write.csv(glyco, "MEDICINE/data/total/glycopeptides.csv")
+write.csv(amino, "MEDICINE/data/total/aminoglycosides.csv")
+write.csv(amphe, "MEDICINE/data/total/amphenicols.csv")
+write.csv(keto, "MEDICINE/data/total/ketolides.csv")
+write.csv(other, "MEDICINE/data/total/other_anti.csv")
+
+
+
 ####그래프 - pt ----
 options(scipen = 5) #과학적 스케일 적용
 
