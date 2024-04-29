@@ -76,7 +76,6 @@ medicine_result_anti2$date <- as.Date(paste(as.character(medicine_result_anti2$d
     filter(category == "Other")
 }
 
-
 #csv파일로 저장
 write.csv(anti, "MEDICINE/data/total/anti.csv")
 write.csv(peni, "MEDICINE/data/total/penicillin.csv")
@@ -89,7 +88,17 @@ write.csv(amphe, "MEDICINE/data/total/amphenicols.csv")
 write.csv(keto, "MEDICINE/data/total/ketolides.csv")
 write.csv(other, "MEDICINE/data/total/other_anti.csv")
 
-
+#하위 폴더 바로 불러오기
+anti <- read_csv("MEDICINE/data/total/anti.csv")
+peni <- read_csv("MEDICINE/data/total/penicillins.csv")
+cepha <- read_csv("MEDICINE/data/total/cephalosporins.csv")
+tetra <- read_csv("MEDICINE/data/total/tetracyclines.csv")
+macro <- read_csv("MEDICINE/data/total/macrolides.csv")
+glyco <- read_csv("MEDICINE/data/total/glycopeptides.csv")
+amino <- read_csv("MEDICINE/data/total/aminoglycosides.csv")
+amphe <- read_csv("MEDICINE/data/total/amphenicols.csv")
+keto <- read_csv("MEDICINE/data/total/ketolides.csv")
+other <- read_csv("MEDICINE/data/total/other_antibiotics.csv")
 
 ####그래프 - pt ----
 options(scipen = 5) #과학적 스케일 적용
@@ -117,15 +126,16 @@ ggplot(data = anti, aes(x = date, y = category_pt)) +
   geom_line(data = keto, aes(color = "Ketolides")) +
   geom_point(data = other, aes(color = "Other"), size = 1.5) +
   geom_line(data = other, aes(color = "Other")) +
-  geom_hline(yintercept = 0, linetype = "solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=1)+
+  geom_hline(yintercept=0, linetype="solid", size=1) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-16")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 10000000)) +
-  scale_x_date(name="Date", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-09-01'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
-                     name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
+                     name = "Antibiotic Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
                                                    "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
                                                    "Ketolides", "Other")) +
   theme_gray(20) +
@@ -139,215 +149,11 @@ ggplot(data = anti, aes(x = date, y = category_pt)) +
         legend.title = element_blank())
 
 
-
-##penicillins
-ggplot(data=peni, aes(x = date, y = category_pt)) + 
-  geom_point(color="black", size=1.5) +
-  geom_line(color="black") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,1500000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-
-##Cephalosporins
-ggplot(data=cepha, aes(x = date, y = category_pt)) + 
-  geom_point(color="red", size=1.5) +
-  geom_line(color="red") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,6000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Tetracyclines
-ggplot(data=tetra, aes(x = date, y = category_pt)) + 
-  geom_point(color="blue", size=1.5) +
-  geom_line(color="blue") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,250000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-
-##Macrolides
-ggplot(data=macro, aes(x = date, y = category_pt)) + 
-  geom_point(color="green", size=1.5) +
-  geom_line(color="green") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,3000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Glycopeptides
-ggplot(data=glyco, aes(x = date, y = category_pt)) + 
-  geom_point(color="pink", size=1.5) +
-  geom_line(color="pink") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,30000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Aminoglycosides
-ggplot(data=amino, aes(x = date, y = category_pt)) + 
-  geom_point(color="purple", size=1.5) +
-  geom_line(color="purple") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,1000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Amphenicols
-ggplot(data=amphe, aes(x = date, y = category_pt)) + 
-  geom_point(color="gray", size=1.5) +
-  geom_line(color="gray") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,1000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Ketolides
-ggplot(data=keto, aes(x = date, y = category_pt)) + 
-  geom_point(color="brown", size=1.5) +
-  geom_line(color="brown") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,500000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##other
-ggplot(data=other, aes(x = date, y = category_pt)) + 
-  geom_point(color="orange", size=1.5) +
-  geom_line(color="orange") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,50000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-ggplot(data=other, aes(x = date, y = category_pt)) + 
-  geom_point(color="orange", size=1.5) +
-  geom_line(color="orange") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,10000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-
-
 ####그래프 - pres ----
 options(scipen = 5) #과학적 스케일 적용
 
 #성분별 그래프
-#전제
+#전제ggplot(data = anti, aes(x = date, y = category_pt)) +
 ggplot(data = anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -369,17 +175,18 @@ ggplot(data = anti, aes(x = date, y = category_pres)) +
   geom_line(data = keto, aes(color = "Ketolides")) +
   geom_point(data = other, aes(color = "Other"), size = 1.5) +
   geom_line(data = other, aes(color = "Other")) +
-  geom_hline(yintercept = 0, linetype = "solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=1)+
+  geom_hline(yintercept=0, linetype="solid", size=1) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-16")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 15000000)) +
-  scale_x_date(name="Date", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-09-01'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
-                     name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
-                                                   "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
-                                                   "Ketolides", "Other")) +
+                     name = "Antibiotic Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
+                                                              "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
+                                                              "Ketolides", "Other")) +
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
@@ -389,191 +196,6 @@ ggplot(data = anti, aes(x = date, y = category_pres)) +
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
-
-
-
-##penicillins
-ggplot(data=peni, aes(x = date, y = category_pres)) + 
-  geom_point(color="black", size=1.5) +
-  geom_line(color="black") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="pres",limits = c(0,2000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-
-##Cephalosporins
-ggplot(data=cepha, aes(x = date, y = category_pres)) + 
-  geom_point(color="red", size=1.5) +
-  geom_line(color="red") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,6000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Tetracyclines
-ggplot(data=tetra, aes(x = date, y = category_pres)) + 
-  geom_point(color="blue", size=1.5) +
-  geom_line(color="blue") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,300000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-
-##Macrolides
-ggplot(data=macro, aes(x = date, y = category_pres)) + 
-  geom_point(color="green", size=1.5) +
-  geom_line(color="green") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,3000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Glycopeptides
-ggplot(data=glyco, aes(x = date, y = category_pres)) + 
-  geom_point(color="pink", size=1.5) +
-  geom_line(color="pink") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,30000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Aminoglycosides
-ggplot(data=amino, aes(x = date, y = category_pres)) + 
-  geom_point(color="purple", size=1.5) +
-  geom_line(color="purple") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,1100000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Amphenicols
-ggplot(data=amphe, aes(x = date, y = category_pres)) + 
-  geom_point(color="gray", size=1.5) +
-  geom_line(color="gray") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,1000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##Ketolides
-ggplot(data=keto, aes(x = date, y = category_pres)) + 
-  geom_point(color="brown", size=1.5) +
-  geom_line(color="brown") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,500000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
-##other
-ggplot(data=other, aes(x = date, y = category_pres)) + 
-  geom_point(color="orange", size=1.5) +
-  geom_line(color="orange") +
-  geom_hline(yintercept=0, linetype="solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  #
-  scale_y_continuous(name="number",limits = c(0,50000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-01'))) +
-  #
-  theme_gray(20)+
-  theme(panel.background=element_blank(),
-        panel.grid.major=element_line(color="grey90", size=0.5),
-        axis.ticks=element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title=element_text(size=rel(1.0)),
-        legend.title=element_blank())
-
 
 
 ####그래프 - amt ----
@@ -599,17 +221,18 @@ ggplot(data = anti, aes(x = date, y = category_amt)) +
   geom_line(data = keto, aes(color = "Ketolides")) +
   geom_point(data = other, aes(color = "Other"), size = 1.5) +
   geom_line(data = other, aes(color = "Other")) +
-  geom_hline(yintercept = 0, linetype = "solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=1)+
+  geom_hline(yintercept=0, linetype="solid", size=1) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-16")), linetype="dashed") +
-  scale_y_continuous(name="Prescription price", limits = c(0, 100000000000)) +
-  scale_x_date(name="Date", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Patient Number", limits = c(0, 100000000000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-09-01'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
-                     name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
-                                                   "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
-                                                   "Ketolides", "Other")) +
+                     name = "Antibiotic Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
+                                                              "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
+                                                              "Ketolides", "Other")) +
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
