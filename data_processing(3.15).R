@@ -16,7 +16,7 @@ process_med_file <- function(file_path) {
               pt = sum(PATIENT_CNT),
               amt = sum(PRSCRPTN_AMT))
   return(result)
-} #pres는 처방수, pt는 환자수
+} #pres는 처방수, pt는 환자수, amt는 처방 금액
 
 
 # 결과를 저장할 리스트 생성

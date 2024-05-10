@@ -13,7 +13,7 @@ process_med_file <- function(file_path) {
            USE_MONTH = factor(USE_MONTH)) %>% 
     group_by(WK_COMPN_4, OUT_IN_HOS,USE_YEAR, USE_MONTH) %>%
     summarise(pres = sum(PRSCRPTN_TNDN_CNT),
-              pt = sum(PATIENT_CNT))
+              pt = sum(PATIENT_CNT), amt = sum(PRSCRPTN_AMT))
   return(result)
 } #pres는 처방수, pt는 환자수
 
@@ -56,11 +56,15 @@ head(medicine_result_anti_hos$pt)
 #category로 합치기
 medicine_result_anti_hos2 <- medicine_result_anti_hos %>% 
   group_by(USE_YEAR,USE_MONTH,category,OUT_IN_HOS) %>% 
-  summarise(category_pres = sum(pres), category_pt = sum(pt))
+  summarise(category_pres = sum(pres), category_pt = sum(pt), category_amt = sum(amt))
 
 #날짜 만들기
 medicine_result_anti_hos2$date = paste0(medicine_result_anti_hos2$USE_YEAR,medicine_result_anti_hos2$USE_MONTH)
 medicine_result_anti_hos2$date <- as.Date(paste(as.character(medicine_result_anti_hos2$date), '01'), format='%Y%m%d')
+
+
+
+
 
 
 #각 성분별 분류
@@ -68,7 +72,8 @@ medicine_result_anti_hos2$date <- as.Date(paste(as.character(medicine_result_ant
 IN_anti <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
   group_by(USE_MONTH,USE_YEAR, OUT_IN_HOS,date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt))
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
+            category_amt = sum(category_amt))
 
 IN_peni <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
@@ -154,8 +159,33 @@ OUT_other <- medicine_result_anti_hos2 %>%
   filter(category == "Other")
 
 
+#csv파일로 저장
+write.csv(anti, "MEDICINE/data/total/anti.csv")
+write.csv(peni, "MEDICINE/data/total/penicillin.csv")
+write.csv(cepha, "MEDICINE/data/total/cephalosporins.csv")
+write.csv(tetra, "MEDICINE/data/total/tetracyclines.csv")
+write.csv(macro, "MEDICINE/data/total/macrolides.csv")
+write.csv(glyco, "MEDICINE/data/total/glycopeptides.csv")
+write.csv(amino, "MEDICINE/data/total/aminoglycosides.csv")
+write.csv(amphe, "MEDICINE/data/total/amphenicols.csv")
+write.csv(keto, "MEDICINE/data/total/ketolides.csv")
+write.csv(other, "MEDICINE/data/total/other_anti.csv")
+
+#하위 폴더 바로 불러오기
+anti <- read_csv("MEDICINE/data/total/anti.csv")
+peni <- read_csv("MEDICINE/data/total/penicillins.csv")
+cepha <- read_csv("MEDICINE/data/total/cephalosporins.csv")
+tetra <- read_csv("MEDICINE/data/total/tetracyclines.csv")
+macro <- read_csv("MEDICINE/data/total/macrolides.csv")
+glyco <- read_csv("MEDICINE/data/total/glycopeptides.csv")
+amino <- read_csv("MEDICINE/data/total/aminoglycosides.csv")
+amphe <- read_csv("MEDICINE/data/total/amphenicols.csv")
+keto <- read_csv("MEDICINE/data/total/ketolides.csv")
+other <- read_csv("MEDICINE/data/total/other_antibiotics.csv")
+
 
 ####그래프 pt IN,OUT ----
+options(scipen = 5) #과학적 스케일 적용
 # IN과 OUT 데이터에 "Source" 열 추가
 IN_anti$Source <- "IN"
 OUT_anti$Source <- "OUT"

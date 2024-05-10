@@ -15,7 +15,8 @@ process_med_file <- function(file_path) {
            USE_MONTH = factor(USE_MONTH)) %>% 
     group_by(WK_COMPN_4, SEX_TYPE,USE_YEAR, USE_MONTH) %>%
     summarise(pres = sum(PRSCRPTN_TNDN_CNT),
-              pt = sum(PATIENT_CNT))
+              pt = sum(PATIENT_CNT),
+              amt = sum(PRSCRPTN_AMT))
   return(result)
 } #pres는 처방수, pt는 환자수
 
