@@ -77,16 +77,16 @@ medicine_result_anti2$date <- as.Date(paste(as.character(medicine_result_anti2$d
 }
 
 #csv파일로 저장
-write.csv(anti, "MEDICINE/data/total/anti.csv")
-write.csv(peni, "MEDICINE/data/total/penicillin.csv")
-write.csv(cepha, "MEDICINE/data/total/cephalosporins.csv")
-write.csv(tetra, "MEDICINE/data/total/tetracyclines.csv")
-write.csv(macro, "MEDICINE/data/total/macrolides.csv")
-write.csv(glyco, "MEDICINE/data/total/glycopeptides.csv")
-write.csv(amino, "MEDICINE/data/total/aminoglycosides.csv")
-write.csv(amphe, "MEDICINE/data/total/amphenicols.csv")
-write.csv(keto, "MEDICINE/data/total/ketolides.csv")
-write.csv(other, "MEDICINE/data/total/other_anti.csv")
+write.csv(anti, "MEDICINE/data/total/anti.csv",row.names = FALSE)
+write.csv(peni, "MEDICINE/data/total/penicillins.csv",row.names = FALSE)
+write.csv(cepha, "MEDICINE/data/total/cephalosporins.csv",row.names = FALSE)
+write.csv(tetra, "MEDICINE/data/total/tetracyclines.csv",row.names = FALSE)
+write.csv(macro, "MEDICINE/data/total/macrolides.csv",row.names = FALSE)
+write.csv(glyco, "MEDICINE/data/total/glycopeptides.csv",row.names = FALSE)
+write.csv(amino, "MEDICINE/data/total/aminoglycosides.csv",row.names = FALSE)
+write.csv(amphe, "MEDICINE/data/total/amphenicols.csv",row.names = FALSE)
+write.csv(keto, "MEDICINE/data/total/ketolides.csv",row.names = FALSE)
+write.csv(other, "MEDICINE/data/total/other_anti.csv",row.names = FALSE)
 
 #하위 폴더 바로 불러오기
 anti <- read_csv("MEDICINE/data/total/anti.csv")
@@ -98,7 +98,7 @@ glyco <- read_csv("MEDICINE/data/total/glycopeptides.csv")
 amino <- read_csv("MEDICINE/data/total/aminoglycosides.csv")
 amphe <- read_csv("MEDICINE/data/total/amphenicols.csv")
 keto <- read_csv("MEDICINE/data/total/ketolides.csv")
-other <- read_csv("MEDICINE/data/total/other_antibiotics.csv")
+other <- read_csv("MEDICINE/data/total/other_anti.csv")
 
 ####그래프 - pt ----
 options(scipen = 5) #과학적 스케일 적용
@@ -131,13 +131,13 @@ ggplot(data = anti, aes(x = date, y = category_pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-16")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 10000000)) +
-  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-09-01'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-01'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
-                     name = "Antibiotic Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
-                                                   "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
-                                                   "Ketolides", "Other")) +
+                     name = "Antibiotic Category",labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
+                                                             "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
+                                                             "Ketolides", "Other")) +
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
@@ -147,6 +147,56 @@ ggplot(data = anti, aes(x = date, y = category_pt)) +
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
+
+
+#수정헀는데 날짜 표시가 이상함, 확인 필요 ----
+ggplot(data = anti, aes(x = date, y = category_pt)) +
+  geom_point(aes(color = "Total(anti)"), size = 1.5) +
+  geom_line(aes(color = "Total(anti)")) +
+  geom_point(data = peni, aes(color = "Penicillins"), size = 1.5) +
+  geom_line(data = peni, aes(color = "Penicillins")) +
+  geom_point(data = cepha, aes(color = "Cephalosporins"), size = 1.5) +
+  geom_line(data = cepha, aes(color = "Cephalosporins")) +
+  geom_point(data = tetra, aes(color = "Tetracyclines"), size = 1.5) +
+  geom_line(data = tetra, aes(color = "Tetracyclines")) +
+  geom_point(data = macro, aes(color = "Macrolides"), size = 1.5) +
+  geom_line(data = macro, aes(color = "Macrolides")) +
+  geom_point(data = glyco, aes(color = "Glycopeptides"), size = 1.5) +
+  geom_line(data = glyco, aes(color = "Glycopeptides")) +
+  geom_point(data = amino, aes(color = "Aminoglycosides"), size = 1.5) +
+  geom_line(data = amino, aes(color = "Aminoglycosides")) +
+  geom_point(data = amphe, aes(color = "Amphenicols"), size = 1.5) +
+  geom_line(data = amphe, aes(color = "Amphenicols")) +
+  geom_point(data = keto, aes(color = "Ketolides"), size = 1.5) +
+  geom_line(data = keto, aes(color = "Ketolides")) +
+  geom_point(data = other, aes(color = "Other"), size = 1.5) +
+  geom_line(data = other, aes(color = "Other")) +
+  geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=1) +
+  geom_hline(yintercept=0, linetype="solid", size=1) +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
+  geom_vline(xintercept = as.numeric(as.Date("2022-01-16")), linetype="dashed") +
+  scale_y_continuous(name="Patient Number", limits = c(0, 10000000)) +
+  scale_x_date(name=" ", 
+               breaks = seq(as.Date("2018-01-01"), as.Date("2023-12-01"), by = "3 months"),
+               date_labels = "%Y.%m", 
+               limits = as.Date(c('2018-01-01','2023-12-01'))) +
+  scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
+                                "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
+                                "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     name = "Antibiotic Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
+                                                              "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
+                                                              "Ketolides", "Other")) +
+  theme_gray(20) +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_line(color = "grey90", size = 0.5),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.y = element_text(face = 'bold'),
+        axis.title.y = element_text(face = 'bold'),
+        plot.title = element_text(size = rel(1.0)),
+        legend.title = element_blank())
+
+
 
 
 ####그래프 - pres ----
@@ -180,7 +230,7 @@ ggplot(data = anti, aes(x = date, y = category_pres)) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-16")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 15000000)) +
-  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-09-01'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-01'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),

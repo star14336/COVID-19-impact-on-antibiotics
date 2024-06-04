@@ -22,7 +22,7 @@ process_med_file <- function(file_path) {
 MEDICINE_list_hos <- list()
 
 # MEDINE(1)부터 MEDINE(69)까지의 파일에 대해 반복 작업 수행
-for (i in 1:69) {
+for (i in 1:72) {
   file_path <- paste0("MEDICINE/MEDICINE (", i, ").csv")
   if(!file.exists(file_path)){next}
   result <- process_med_file(file_path)
@@ -116,11 +116,36 @@ IN_other <- medicine_result_anti_hos2 %>%
   filter(category == "Other")
 
 
+#csv파일로 저장
+write.csv(IN_anti, "MEDICINE/data/hos/in/IN_anti.csv",row.names = FALSE)
+write.csv(IN_peni, "MEDICINE/data/hos/in/IN_penicillins.csv",row.names = FALSE)
+write.csv(IN_cepha, "MEDICINE/data/hos/in/IN_cephalosporins.csv",row.names = FALSE)
+write.csv(IN_tetra, "MEDICINE/data/hos/in/IN_tetracyclines.csv",row.names = FALSE)
+write.csv(IN_macro, "MEDICINE/data/hos/in/IN_macrolides.csv",row.names = FALSE)
+write.csv(IN_glyco, "MEDICINE/data/hos/in/IN_glycopeptides.csv",row.names = FALSE)
+write.csv(IN_amino, "MEDICINE/data/hos/in/IN_aminoglycosides.csv",row.names = FALSE)
+write.csv(IN_amphe, "MEDICINE/data/hos/in/IN_amphenicols.csv",row.names = FALSE)
+write.csv(IN_keto, "MEDICINE/data/hos/in/IN_ketolides.csv",row.names = FALSE)
+write.csv(IN_other, "MEDICINE/data/hos/in/IN_other_anti.csv",row.names = FALSE)
+
+#하위 폴더 바로 불러오기
+IN_anti <- read_csv("MEDICINE/data/hos/in/IN_anti.csv")
+IN_peni <- read_csv("MEDICINE/data/hos/in/IN_penicillins.csv")
+IN_cepha <- read_csv("MEDICINE/data/hos/in/IN_cephalosporins.csv")
+IN_tetra <- read_csv("MEDICINE/data/hos/in/IN_tetracyclines.csv")
+IN_macro <- read_csv("MEDICINE/data/hos/in/IN_macrolides.csv")
+IN_glyco <- read_csv("MEDICINE/data/hos/in/IN_glycopeptides.csv")
+IN_amino <- read_csv("MEDICINE/data/hos/in/IN_aminoglycosides.csv")
+IN_amphe <- read_csv("MEDICINE/data/hos/in/IN_amphenicols.csv")
+IN_keto <- read_csv("MEDICINE/data/hos/in/IN_ketolides.csv")
+IN_other <- read_csv("MEDICINE/data/hos/in/IN_other_anti.csv")
+
+
 ##병원외 OUT 항생제 분류
 OUT_anti <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
   group_by(USE_MONTH, USE_YEAR, OUT_IN_HOS, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt))
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), category_amt = sum(category_amt))
 
 OUT_peni <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
@@ -160,111 +185,104 @@ OUT_other <- medicine_result_anti_hos2 %>%
 
 
 #csv파일로 저장
-write.csv(anti, "MEDICINE/data/total/anti.csv")
-write.csv(peni, "MEDICINE/data/total/penicillin.csv")
-write.csv(cepha, "MEDICINE/data/total/cephalosporins.csv")
-write.csv(tetra, "MEDICINE/data/total/tetracyclines.csv")
-write.csv(macro, "MEDICINE/data/total/macrolides.csv")
-write.csv(glyco, "MEDICINE/data/total/glycopeptides.csv")
-write.csv(amino, "MEDICINE/data/total/aminoglycosides.csv")
-write.csv(amphe, "MEDICINE/data/total/amphenicols.csv")
-write.csv(keto, "MEDICINE/data/total/ketolides.csv")
-write.csv(other, "MEDICINE/data/total/other_anti.csv")
+write.csv(OUT_anti, "MEDICINE/data/hos/out/OUT_anti.csv",row.names = FALSE)
+write.csv(OUT_peni, "MEDICINE/data/hos/out/OUT_penicillins.csv",row.names = FALSE)
+write.csv(OUT_cepha, "MEDICINE/data/hos/out/OUT_cephalosporins.csv",row.names = FALSE)
+write.csv(OUT_tetra, "MEDICINE/data/hos/out/OUT_tetracyclines.csv",row.names = FALSE)
+write.csv(OUT_macro, "MEDICINE/data/hos/out/OUT_macrolides.csv",row.names = FALSE)
+write.csv(OUT_glyco, "MEDICINE/data/hos/out/OUT_glycopeptides.csv",row.names = FALSE)
+write.csv(OUT_amino, "MEDICINE/data/hos/out/OUT_aminoglycosides.csv",row.names = FALSE)
+write.csv(OUT_amphe, "MEDICINE/data/hos/out/OUT_amphenicols.csv",row.names = FALSE)
+write.csv(OUT_keto, "MEDICINE/data/hos/out/OUT_ketolides.csv",row.names = FALSE)
+write.csv(OUT_other, "MEDICINE/data/hos/out/OUT_other_anti.csv",row.names = FALSE)
 
 #하위 폴더 바로 불러오기
-anti <- read_csv("MEDICINE/data/total/anti.csv")
-peni <- read_csv("MEDICINE/data/total/penicillins.csv")
-cepha <- read_csv("MEDICINE/data/total/cephalosporins.csv")
-tetra <- read_csv("MEDICINE/data/total/tetracyclines.csv")
-macro <- read_csv("MEDICINE/data/total/macrolides.csv")
-glyco <- read_csv("MEDICINE/data/total/glycopeptides.csv")
-amino <- read_csv("MEDICINE/data/total/aminoglycosides.csv")
-amphe <- read_csv("MEDICINE/data/total/amphenicols.csv")
-keto <- read_csv("MEDICINE/data/total/ketolides.csv")
-other <- read_csv("MEDICINE/data/total/other_antibiotics.csv")
+OUT_anti <- read_csv("MEDICINE/data/hos/out/OUT_anti.csv")
+OUT_peni <- read_csv("MEDICINE/data/hos/out/OUT_penicillins.csv")
+OUT_cepha <- read_csv("MEDICINE/data/hos/out/OUT_cephalosporins.csv")
+OUT_tetra <- read_csv("MEDICINE/data/hos/out/OUT_tetracyclines.csv")
+OUT_macro <- read_csv("MEDICINE/data/hos/out/OUT_macrolides.csv")
+OUT_glyco <- read_csv("MEDICINE/data/hos/out/OUT_glycopeptides.csv")
+OUT_amino <- read_csv("MEDICINE/data/hos/out/OUT_aminoglycosides.csv")
+OUT_amphe <- read_csv("MEDICINE/data/hos/out/OUT_amphenicols.csv")
+OUT_keto <- read_csv("MEDICINE/data/hos/out/OUT_ketolides.csv")
+OUT_other <- read_csv("MEDICINE/data/hos/out/OUT_other_anti.csv")
 
 
 ####그래프 pt IN,OUT ----
-options(scipen = 5) #과학적 스케일 적용
-# IN과 OUT 데이터에 "Source" 열 추가
-IN_anti$Source <- "IN"
-OUT_anti$Source <- "OUT"
 
 # 데이터 결합
-combined_data <- rbind(IN_anti, OUT_anti)
+hos_anti <- rbind(IN_anti, OUT_anti)
+hos_peni <- rbind(IN_peni, OUT_peni)
+hos_cepha <- rbind(IN_cepha, OUT_cepha)
+hos_tetra <- rbind(IN_tetra, OUT_tetra)
+hos_macro <- rbind(IN_macro, OUT_macro)
+hos_glyco <- rbind(IN_glyco, OUT_glyco)
+hos_amino <- rbind(IN_amino, OUT_amino)
+hos_amphe <- rbind(IN_amphe, OUT_amphe)
+hos_keto <- rbind(IN_keto, OUT_keto)
+hos_other <- rbind(IN_other, OUT_other)
 
-# 다른 항생제 카테고리에도 동일하게 적용
-IN_peni$Source <- "IN"
-OUT_peni$Source <- "OUT"
-combined_peni <- rbind(IN_peni, OUT_peni)
+#csv파일로 저장
+write.csv(hos_anti, "MEDICINE/data/hos/hos_anti.csv",row.names = FALSE)
+write.csv(hos_peni, "MEDICINE/data/hos/hos_penicillins.csv",row.names = FALSE)
+write.csv(hos_cepha, "MEDICINE/data/hos/hos_cephalosporins.csv",row.names = FALSE)
+write.csv(hos_tetra, "MEDICINE/data/hos/hos_tetracyclines.csv",row.names = FALSE)
+write.csv(hos_macro, "MEDICINE/data/hos/hos_macrolides.csv",row.names = FALSE)
+write.csv(hos_glyco, "MEDICINE/data/hos/hos_glycopeptides.csv",row.names = FALSE)
+write.csv(hos_amino, "MEDICINE/data/hos/hos_aminoglycosides.csv",row.names = FALSE)
+write.csv(hos_amphe, "MEDICINE/data/hos/hos_amphenicols.csv",row.names = FALSE)
+write.csv(hos_keto, "MEDICINE/data/hos/hos_ketolides.csv",row.names = FALSE)
+write.csv(hos_other, "MEDICINE/data/hos/hos_other_anti.csv",row.names = FALSE)
 
-IN_cepha$Source <- "IN"
-OUT_cepha$Source <- "OUT"
-combined_cepha <- rbind(IN_cepha, OUT_cepha)
+#하위 폴더 바로 불러오기
+hos_anti <- read_csv("MEDICINE/data/hos/hos_anti.csv")
+hos_peni <- read_csv("MEDICINE/data/hos/hos_penicillins.csv")
+hos_cepha <- read_csv("MEDICINE/data/hos/hos_cephalosporins.csv")
+hos_tetra <- read_csv("MEDICINE/data/hos/hos_tetracyclines.csv")
+hos_macro <- read_csv("MEDICINE/data/hos/hos_macrolides.csv")
+hos_glyco <- read_csv("MEDICINE/data/hos/hos_glycopeptides.csv")
+hos_amino <- read_csv("MEDICINE/data/hos/hos_aminoglycosides.csv")
+hos_amphe <- read_csv("MEDICINE/data/hos/hos_amphenicols.csv")
+hos_keto <- read_csv("MEDICINE/data/hos/hos_ketolides.csv")
+hos_other <- read_csv("MEDICINE/data/hos/hos_other_anti.csv")
 
-IN_tetra$Source <- "IN"
-OUT_tetra$Source <- "OUT"
-combined_tetra <- rbind(IN_tetra, OUT_tetra)
-
-IN_macro$Source <- "IN"
-OUT_macro$Source <- "OUT"
-combined_macro <- rbind(IN_macro, OUT_macro)
-
-IN_glyco$Source <- "IN"
-OUT_glyco$Source <- "OUT"
-combined_glyco <- rbind(IN_glyco, OUT_glyco)
-
-IN_amino$Source <- "IN"
-OUT_amino$Source <- "OUT"
-combined_amino <- rbind(IN_amino, OUT_amino)
-
-IN_amphe$Source <- "IN"
-OUT_amphe$Source <- "OUT"
-combined_amphe <- rbind(IN_amphe, OUT_amphe)
-
-IN_keto$Source <- "IN"
-OUT_keto$Source <- "OUT"
-combined_keto <- rbind(IN_keto, OUT_keto)
-
-IN_other$Source <- "IN"
-OUT_other$Source <- "OUT"
-combined_other <- rbind(IN_other, OUT_other)
 
 
 #그래프
-ggplot(data = combined_data, aes(x = date, y = category_pt)) +
+ggplot(data = hos_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
-  geom_point(data = combined_peni, aes(color = "Penicillins"), size = 1.5) +
-  geom_line(data = combined_peni, aes(color = "Penicillins")) +
-  geom_point(data = combined_cepha, aes(color = "Cephalosporins"), size = 1.5) +
-  geom_line(data = combined_cepha, aes(color = "Cephalosporins")) +
-  geom_point(data = combined_tetra, aes(color = "Tetracyclines"), size = 1.5) +
-  geom_line(data = combined_tetra, aes(color = "Tetracyclines")) +
-  geom_point(data = combined_macro, aes(color = "Macrolides"), size = 1.5) +
-  geom_line(data = combined_macro, aes(color = "Macrolides")) +
-  geom_point(data = combined_glyco, aes(color = "Glycopeptides"), size = 1.5) +
-  geom_line(data = combined_glyco, aes(color = "Glycopeptides")) +
-  geom_point(data = combined_amino, aes(color = "Aminoglycosides"), size = 1.5) +
-  geom_line(data = combined_amino, aes(color = "Aminoglycosides")) +
-  geom_point(data = combined_amphe, aes(color = "Amphenicols"), size = 1.5) +
-  geom_line(data = combined_amphe, aes(color = "Amphenicols")) +
-  geom_point(data = combined_keto, aes(color = "Ketolides"), size = 1.5) +
-  geom_line(data = combined_keto, aes(color = "Ketolides")) +
-  geom_point(data = combined_other, aes(color = "Other"), size = 1.5) +
-  geom_line(data = combined_other, aes(color = "Other")) +
+  geom_point(data = hos_peni, aes(color = "Penicillins"), size = 1.5) +
+  geom_line(data = hos_peni, aes(color = "Penicillins")) +
+  geom_point(data = hos_cepha, aes(color = "Cephalosporins"), size = 1.5) +
+  geom_line(data = hos_cepha, aes(color = "Cephalosporins")) +
+  geom_point(data = hos_tetra, aes(color = "Tetracyclines"), size = 1.5) +
+  geom_line(data = hos_tetra, aes(color = "Tetracyclines")) +
+  geom_point(data = hos_macro, aes(color = "Macrolides"), size = 1.5) +
+  geom_line(data = hos_macro, aes(color = "Macrolides")) +
+  geom_point(data = hos_glyco, aes(color = "Glycopeptides"), size = 1.5) +
+  geom_line(data = hos_glyco, aes(color = "Glycopeptides")) +
+  geom_point(data = hos_amino, aes(color = "Aminoglycosides"), size = 1.5) +
+  geom_line(data = hos_amino, aes(color = "Aminoglycosides")) +
+  geom_point(data = hos_amphe, aes(color = "Amphenicols"), size = 1.5) +
+  geom_line(data = hos_amphe, aes(color = "Amphenicols")) +
+  geom_point(data = hos_keto, aes(color = "Ketolides"), size = 1.5) +
+  geom_line(data = hos_keto, aes(color = "Ketolides")) +
+  geom_point(data = hos_other, aes(color = "Other"), size = 1.5) +
+  geom_line(data = hos_other, aes(color = "Other")) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 10000000)) +
-  scale_x_date(name="Date", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name="Date", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-1'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
                      name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
                                                    "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
                                                    "Ketolides", "Other")) +
-  facet_wrap(~Source) +
+  facet_wrap(~OUT_IN_HOS) +
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
@@ -279,39 +297,39 @@ ggplot(data = combined_data, aes(x = date, y = category_pt)) +
 
 
 ####그래프 pres IN,OUT ----
-ggplot(data = combined_data, aes(x = date, y = category_pres)) +
+ggplot(data = hos_anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
-  geom_point(data = combined_peni, aes(color = "Penicillins"), size = 1.5) +
-  geom_line(data = combined_peni, aes(color = "Penicillins")) +
-  geom_point(data = combined_cepha, aes(color = "Cephalosporins"), size = 1.5) +
-  geom_line(data = combined_cepha, aes(color = "Cephalosporins")) +
-  geom_point(data = combined_tetra, aes(color = "Tetracyclines"), size = 1.5) +
-  geom_line(data = combined_tetra, aes(color = "Tetracyclines")) +
-  geom_point(data = combined_macro, aes(color = "Macrolides"), size = 1.5) +
-  geom_line(data = combined_macro, aes(color = "Macrolides")) +
-  geom_point(data = combined_glyco, aes(color = "Glycopeptides"), size = 1.5) +
-  geom_line(data = combined_glyco, aes(color = "Glycopeptides")) +
-  geom_point(data = combined_amino, aes(color = "Aminoglycosides"), size = 1.5) +
-  geom_line(data = combined_amino, aes(color = "Aminoglycosides")) +
-  geom_point(data = combined_amphe, aes(color = "Amphenicols"), size = 1.5) +
-  geom_line(data = combined_amphe, aes(color = "Amphenicols")) +
-  geom_point(data = combined_keto, aes(color = "Ketolides"), size = 1.5) +
-  geom_line(data = combined_keto, aes(color = "Ketolides")) +
-  geom_point(data = combined_other, aes(color = "Other"), size = 1.5) +
-  geom_line(data = combined_other, aes(color = "Other")) +
+  geom_point(data = hos_peni, aes(color = "Penicillins"), size = 1.5) +
+  geom_line(data = hos_peni, aes(color = "Penicillins")) +
+  geom_point(data = hos_cepha, aes(color = "Cephalosporins"), size = 1.5) +
+  geom_line(data = hos_cepha, aes(color = "Cephalosporins")) +
+  geom_point(data = hos_tetra, aes(color = "Tetracyclines"), size = 1.5) +
+  geom_line(data = hos_tetra, aes(color = "Tetracyclines")) +
+  geom_point(data = hos_macro, aes(color = "Macrolides"), size = 1.5) +
+  geom_line(data = hos_macro, aes(color = "Macrolides")) +
+  geom_point(data = hos_glyco, aes(color = "Glycopeptides"), size = 1.5) +
+  geom_line(data = hos_glyco, aes(color = "Glycopeptides")) +
+  geom_point(data = hos_amino, aes(color = "Aminoglycosides"), size = 1.5) +
+  geom_line(data = hos_amino, aes(color = "Aminoglycosides")) +
+  geom_point(data = hos_amphe, aes(color = "Amphenicols"), size = 1.5) +
+  geom_line(data = hos_amphe, aes(color = "Amphenicols")) +
+  geom_point(data = hos_keto, aes(color = "Ketolides"), size = 1.5) +
+  geom_line(data = hos_keto, aes(color = "Ketolides")) +
+  geom_point(data = hos_other, aes(color = "Other"), size = 1.5) +
+  geom_line(data = hos_other, aes(color = "Other")) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Prescription Number", limits = c(0, 10000000)) +
-  scale_x_date(name="Date", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Prescription Number", limits = c(0, 12000000)) +
+  scale_x_date(name="Date",breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-1'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
                      name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
                                                    "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
                                                    "Ketolides", "Other")) +
-  facet_wrap(~Source) +
+  facet_wrap(~OUT_IN_HOS) +
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),

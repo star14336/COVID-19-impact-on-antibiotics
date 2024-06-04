@@ -25,7 +25,7 @@ process_med_file <- function(file_path) {
 MEDICINE_list_sex <- list()
 
 # MEDINE(1)부터 MEDINE(69)까지의 파일에 대해 반복 작업 수행
-for (i in 1:69) {
+for (i in 1:72) {
   file_path <- paste0("MEDICINE/MEDICINE (", i, ").csv")
   if(!file.exists(file_path)){next}
   result <- process_med_file(file_path)
@@ -59,7 +59,7 @@ head(medicine_result_anti_sex$pt)
 #category로 합치기
 medicine_result_anti_sex2 <- medicine_result_anti_sex %>% 
   group_by(USE_YEAR,USE_MONTH,category,SEX_TYPE) %>% 
-  summarise(category_pres = sum(pres), category_pt = sum(pt))
+  summarise(category_pres = sum(pres), category_pt = sum(pt), category_amt = sum(amt))
 
 #날짜 만들기
 medicine_result_anti_sex2$date = paste0(medicine_result_anti_sex2$USE_YEAR,medicine_result_anti_sex2$USE_MONTH)

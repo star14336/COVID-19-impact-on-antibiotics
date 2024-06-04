@@ -23,7 +23,7 @@ process_med_file <- function(file_path) {
 MEDICINE_list <- list()
 
 # MEDINE(1)부터 MEDINE(70)까지의 파일에 대해 반복 작업 수행
-for (i in 1:69) {
+for (i in 1:72) {
        file_path <- paste0("MEDICINE/MEDICINE (", i, ").csv")
     if(!file.exists(file_path)){next}
     result <- process_med_file(file_path)
