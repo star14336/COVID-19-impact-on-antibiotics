@@ -15,7 +15,7 @@ process_med_file <- function(file_path) {
            USE_MONTH = factor(USE_MONTH)) %>% 
     group_by(WK_COMPN_4, YOYANG_CLSFC_CD_ADJ,USE_YEAR, USE_MONTH) %>%
     summarise(pres = sum(PRSCRPTN_TNDN_CNT),
-              pt = sum(PATIENT_CNT))
+              pt = sum(PATIENT_CNT), amt = sum(PRSCRPTN_AMT))
   return(result)
 } #pres는 처방수, pt는 환자수
 
@@ -24,7 +24,7 @@ process_med_file <- function(file_path) {
 MEDICINE_list_class <- list()
 
 # MEDINE(1)부터 MEDINE(69)까지의 파일에 대해 반복 작업 수행
-for (i in 1:69) {
+for (i in 1:72) {
   file_path <- paste0("MEDICINE/MEDICINE (", i, ").csv")
   if(!file.exists(file_path)){next}
   result <- process_med_file(file_path)

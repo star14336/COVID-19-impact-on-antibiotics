@@ -209,8 +209,6 @@ OUT_keto <- read_csv("MEDICINE/data/hos/out/OUT_ketolides.csv")
 OUT_other <- read_csv("MEDICINE/data/hos/out/OUT_other_anti.csv")
 
 
-####그래프 pt IN,OUT ----
-
 # 데이터 결합
 hos_anti <- rbind(IN_anti, OUT_anti)
 hos_peni <- rbind(IN_peni, OUT_peni)
@@ -249,7 +247,8 @@ hos_other <- read_csv("MEDICINE/data/hos/hos_other_anti.csv")
 
 
 
-#그래프
+#그래프 pt hos ----
+options(scipen = 5) #과학적 스케일 적용
 ggplot(data = hos_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -296,7 +295,7 @@ ggplot(data = hos_anti, aes(x = date, y = category_pt)) +
 
 
 
-####그래프 pres IN,OUT ----
+####그래프 pres hos ----
 ggplot(data = hos_anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -340,6 +339,7 @@ ggplot(data = hos_anti, aes(x = date, y = category_pres)) +
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
+####그래프 amt hos ----
 
 
 ####그래프 pt IN ----
@@ -387,6 +387,53 @@ ggplot(data = IN_anti, aes(x = date, y = category_pt)) +
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
+#### 그래프 pres IN ----
+ggplot(data = IN_anti, aes(x = date, y = category_pres)) +
+  geom_point(aes(color = "Total(anti)"), size = 1.5) +
+  geom_line(aes(color = "Total(anti)")) +
+  geom_point(data = IN_peni, aes(color = "Penicillins"), size = 1.5) +
+  geom_line(data = IN_peni, aes(color = "Penicillins")) +
+  geom_point(data = IN_cepha, aes(color = "Cephalosporins"), size = 1.5) +
+  geom_line(data = IN_cepha, aes(color = "Cephalosporins")) +
+  geom_point(data = IN_tetra, aes(color = "Tetracyclines"), size = 1.5) +
+  geom_line(data = IN_tetra, aes(color = "Tetracyclines")) +
+  geom_point(data = IN_macro, aes(color = "Macrolides"), size = 1.5) +
+  geom_line(data = IN_macro, aes(color = "Macrolides")) +
+  geom_point(data = IN_glyco, aes(color = "Glycopeptides"), size = 1.5) +
+  geom_line(data = IN_glyco, aes(color = "Glycopeptides")) +
+  geom_point(data = IN_amino, aes(color = "Aminoglycosides"), size = 1.5) +
+  geom_line(data = IN_amino, aes(color = "Aminoglycosides")) +
+  geom_point(data = IN_amphe, aes(color = "Amphenicols"), size = 1.5) +
+  geom_line(data = IN_amphe, aes(color = "Amphenicols")) +
+  geom_point(data = IN_keto, aes(color = "Ketolides"), size = 1.5) +
+  geom_line(data = IN_keto, aes(color = "Ketolides")) +
+  geom_point(data = IN_other, aes(color = "Other"), size = 1.5) +
+  geom_line(data = IN_other, aes(color = "Other")) +
+  geom_hline(yintercept = 0, linetype = "solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
+  geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
+  scale_y_continuous(name="prescription number", limits = c(0,2500000)) +
+  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
+                                "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
+                                "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                                   "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                                   "Ketolides", "Other")) +
+  theme_gray(20) +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_line(color = "grey90", size = 0.5),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.y = element_text(face = 'bold'),
+        axis.title.y = element_text(face = 'bold'),
+        plot.title = element_text(size = rel(1.0)),
+        legend.title = element_blank())
+
+
+#### 그래프 amt IN ----
+
+
 
 #### 그래프 pt OUT ----
 ggplot(data = OUT_anti, aes(x = date, y = category_pt)) +
@@ -432,48 +479,7 @@ ggplot(data = OUT_anti, aes(x = date, y = category_pt)) +
         legend.title = element_blank())
 
 
-#### 그래프 pres IN ----
-ggplot(data = IN_anti, aes(x = date, y = category_pres)) +
-  geom_point(aes(color = "Total(anti)"), size = 1.5) +
-  geom_line(aes(color = "Total(anti)")) +
-  geom_point(data = IN_peni, aes(color = "Penicillins"), size = 1.5) +
-  geom_line(data = IN_peni, aes(color = "Penicillins")) +
-  geom_point(data = IN_cepha, aes(color = "Cephalosporins"), size = 1.5) +
-  geom_line(data = IN_cepha, aes(color = "Cephalosporins")) +
-  geom_point(data = IN_tetra, aes(color = "Tetracyclines"), size = 1.5) +
-  geom_line(data = IN_tetra, aes(color = "Tetracyclines")) +
-  geom_point(data = IN_macro, aes(color = "Macrolides"), size = 1.5) +
-  geom_line(data = IN_macro, aes(color = "Macrolides")) +
-  geom_point(data = IN_glyco, aes(color = "Glycopeptides"), size = 1.5) +
-  geom_line(data = IN_glyco, aes(color = "Glycopeptides")) +
-  geom_point(data = IN_amino, aes(color = "Aminoglycosides"), size = 1.5) +
-  geom_line(data = IN_amino, aes(color = "Aminoglycosides")) +
-  geom_point(data = IN_amphe, aes(color = "Amphenicols"), size = 1.5) +
-  geom_line(data = IN_amphe, aes(color = "Amphenicols")) +
-  geom_point(data = IN_keto, aes(color = "Ketolides"), size = 1.5) +
-  geom_line(data = IN_keto, aes(color = "Ketolides")) +
-  geom_point(data = IN_other, aes(color = "Other"), size = 1.5) +
-  geom_line(data = IN_other, aes(color = "Other")) +
-  geom_hline(yintercept = 0, linetype = "solid") +
-  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
-  geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="prescription number", limits = c(0,2500000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
-  scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
-                                "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
-                                "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
-                     name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
-                                                   "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
-                                                   "Ketolides", "Other")) +
-  theme_gray(20) +
-  theme(panel.background = element_blank(),
-        panel.grid.major = element_line(color = "grey90", size = 0.5),
-        axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
-        axis.text.y = element_text(face = 'bold'),
-        axis.title.y = element_text(face = 'bold'),
-        plot.title = element_text(size = rel(1.0)),
-        legend.title = element_blank())
+
 
 
 #### 그래프 pres OUT ----
@@ -518,6 +524,14 @@ ggplot(data = OUT_anti, aes(x = date, y = category_pres)) +
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
+
+
+
+#### 그래프 amt OUT ----
+
+
+
+
 
 
 

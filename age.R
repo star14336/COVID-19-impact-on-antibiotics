@@ -15,7 +15,7 @@ process_med_file <- function(file_path) {
            USE_MONTH = factor(USE_MONTH)) %>% 
     group_by(WK_COMPN_4, AGE_G,USE_YEAR, USE_MONTH) %>%
     summarise(pres = sum(PRSCRPTN_TNDN_CNT),
-              pt = sum(PATIENT_CNT))
+              pt = sum(PATIENT_CNT), amt = sum(PRSCRPTN_AMT))
   return(result)
 } #pres는 처방수, pt는 환자수
 
@@ -24,7 +24,7 @@ process_med_file <- function(file_path) {
 MEDICINE_list_age <- list()
 
 # MEDINE(1)부터 MEDINE(69)까지의 파일에 대해 반복 작업 수행
-for (i in 1:69) {
+for (i in 1:72) {
   file_path <- paste0("MEDICINE/MEDICINE (", i, ").csv")
   if(!file.exists(file_path)){next}
   result <- process_med_file(file_path)
@@ -58,7 +58,7 @@ head(medicine_result_anti_age$pt)
 #category로 합치기
 medicine_result_anti_age2 <- medicine_result_anti_age %>% 
   group_by(USE_YEAR,USE_MONTH,category,AGE_G) %>% 
-  summarise(category_pres = sum(pres), category_pt = sum(pt))
+  summarise(category_pres = sum(pres), category_pt = sum(pt), category_amt = sum(amt))
 
 #날짜 만들기
 medicine_result_anti_age2$date = paste0(medicine_result_anti_age2$USE_YEAR,medicine_result_anti_age2$USE_MONTH)
@@ -67,8 +67,13 @@ medicine_result_anti_age2$date <- as.Date(paste(as.character(medicine_result_ant
 
 #데이터 정제
 medicine_result_anti_age2 <- medicine_result_anti_age2 %>% 
-  mutate(AGE_G = ifelse(AGE_G < 60, 0, 1)) %>%
-  mutate(AGE_G = factor(AGE_G, levels = c(0,1), labels = c("junior", "senior")))
+  mutate(AGE_G = case_when(AGE_G < 20~ 0,
+                           AGE_G >= 20~ 1,
+                           AGE_G < 60~ 1,
+                           AGE_G >= 60~ 2)) %>%
+  mutate(AGE_G = factor(AGE_G, levels = c(0,1,2), labels = c("junior","adult" ,"senior")))
+
+
 
 #각 성분별 분류
 ## Senior 항생제 분류
@@ -112,6 +117,8 @@ S_keto <- medicine_result_anti_age2 %>%
 S_other <- medicine_result_anti_age2 %>% 
   filter(AGE_G == "senior") %>% 
   filter(category == "Other")
+
+
 
 ## Junior 항생제 분류
 J_anti <- medicine_result_anti_age2 %>% 

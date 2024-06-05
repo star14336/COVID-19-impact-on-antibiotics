@@ -76,7 +76,8 @@ medicine_result_anti_sex2 <- medicine_result_anti_sex2 %>%
 M_anti <- medicine_result_anti_sex2 %>% 
   filter(SEX_TYPE == "M") %>% 
   group_by(USE_MONTH, USE_YEAR, SEX_TYPE, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), .groups = 'drop')
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
+            category_amt = sum(category_amt), .groups = 'drop')
 
 M_peni <- medicine_result_anti_sex2 %>% 
   filter(SEX_TYPE == "M") %>% 
@@ -118,7 +119,8 @@ M_other <- medicine_result_anti_sex2 %>%
 F_anti <- medicine_result_anti_sex2 %>% 
   filter(SEX_TYPE == "F") %>% 
   group_by(USE_MONTH, USE_YEAR, SEX_TYPE, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), .groups = 'drop')
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
+            category_amt = sum(category_amt),  .groups = 'drop')
 
 F_peni <- medicine_result_anti_sex2 %>% 
   filter(SEX_TYPE == "F") %>% 
@@ -156,68 +158,98 @@ F_other <- medicine_result_anti_sex2 %>%
   filter(SEX_TYPE == "F") %>% 
   filter(category == "Other")
 
-
-
-
-
-####그래프 ----
-options(scipen = 5)
 #남녀 pt
-# M과 F 데이터에 "Source" 열 추가
-M_anti$Source <- "M"
-F_anti$Source <- "F"
-
 # 데이터 결합
 sex_anti<- rbind(M_anti, F_anti)
-
-# 다른 항생제 카테고리에도 동일하게 적용
-# Penicillins 데이터 결합
-M_peni$Source <- "M"
-F_peni$Source <- "F"
 sex_peni <- rbind(M_peni, F_peni)
-
-# Cephalosporins 데이터 결합
-M_cepha$Source <- "M"
-F_cepha$Source <- "F"
 sex_cepha <- rbind(M_cepha, F_cepha)
-
-# Tetracyclines 데이터 결합
-M_tetra$Source <- "M"
-F_tetra$Source <- "F"
 sex_tetra <- rbind(M_tetra, F_tetra)
-
-# Macrolides 데이터 결합
-M_macro$Source <- "M"
-F_macro$Source <- "F"
 sex_macro <- rbind(M_macro, F_macro)
-
-# Glycopeptides 데이터 결합
-M_glyco$Source <- "M"
-F_glyco$Source <- "F"
 sex_glyco <- rbind(M_glyco, F_glyco)
-
-# Aminoglycosides 데이터 결합
-M_amino$Source <- "M"
-F_amino$Source <- "F"
 sex_amino <- rbind(M_amino, F_amino)
-
-# Amphenicols 데이터 결합
-M_amphe$Source <- "M"
-F_amphe$Source <- "F"
 sex_amphe <- rbind(M_amphe, F_amphe)
-
-# Ketolides 데이터 결합
-M_keto$Source <- "M"
-F_keto$Source <- "F"
 sex_keto <- rbind(M_keto, F_keto)
-
-# Other 카테고리 데이터 결합
-M_other$Source <- "M"
-F_other$Source <- "F"
 sex_other <- rbind(M_other, F_other)
 
 
-#그래프
+# csv 파일로 저장(남성)
+write.csv(M_anti, "MEDICINE/data/sex/m/M_anti.csv", row.names = FALSE)
+write.csv(M_peni, "MEDICINE/data/sex/m/M_penicillins.csv", row.names = FALSE)
+write.csv(M_cepha, "MEDICINE/data/sex/m/M_cephalosporins.csv", row.names = FALSE)
+write.csv(M_tetra, "MEDICINE/data/sex/m/M_tetracyclines.csv", row.names = FALSE)
+write.csv(M_macro, "MEDICINE/data/sex/m/M_macrolides.csv", row.names = FALSE)
+write.csv(M_glyco, "MEDICINE/data/sex/m/M_glycopeptides.csv", row.names = FALSE)
+write.csv(M_amino, "MEDICINE/data/sex/m/M_aminoglycosides.csv", row.names = FALSE)
+write.csv(M_amphe, "MEDICINE/data/sex/m/M_amphenicols.csv", row.names = FALSE)
+write.csv(M_keto, "MEDICINE/data/sex/m/M_ketolides.csv", row.names = FALSE)
+write.csv(M_other, "MEDICINE/data/sex/m/M_other_anti.csv", row.names = FALSE)
+
+# 하위 폴더 바로 불러오기
+M_anti <- read_csv("MEDICINE/data/sex/m/M_anti.csv")
+M_peni <- read_csv("MEDICINE/data/sex/m/M_penicillins.csv")
+M_cepha <- read_csv("MEDICINE/data/sex/m/M_cephalosporins.csv")
+M_tetra <- read_csv("MEDICINE/data/sex/m/M_tetracyclines.csv")
+M_macro <- read_csv("MEDICINE/data/sex/m/M_macrolides.csv")
+M_glyco <- read_csv("MEDICINE/data/sex/m/M_glycopeptides.csv")
+M_amino <- read_csv("MEDICINE/data/sex/m/M_aminoglycosides.csv")
+M_amphe <- read_csv("MEDICINE/data/sex/m/M_amphenicols.csv")
+M_keto <- read_csv("MEDICINE/data/sex/m/M_ketolides.csv")
+M_other <- read_csv("MEDICINE/data/sex/m/M_other_anti.csv")
+
+# csv 파일로 저장(여성)
+write.csv(F_anti, "MEDICINE/data/sex/f/F_anti.csv", row.names = FALSE)
+write.csv(F_peni, "MEDICINE/data/sex/f/F_penicillins.csv", row.names = FALSE)
+write.csv(F_cepha, "MEDICINE/data/sex/f/F_cephalosporins.csv", row.names = FALSE)
+write.csv(F_tetra, "MEDICINE/data/sex/f/F_tetracyclines.csv", row.names = FALSE)
+write.csv(F_macro, "MEDICINE/data/sex/f/F_macrolides.csv", row.names = FALSE)
+write.csv(F_glyco, "MEDICINE/data/sex/f/F_glycopeptides.csv", row.names = FALSE)
+write.csv(F_amino, "MEDICINE/data/sex/f/F_aminoglycosides.csv", row.names = FALSE)
+write.csv(F_amphe, "MEDICINE/data/sex/f/F_amphenicols.csv", row.names = FALSE)
+write.csv(F_keto, "MEDICINE/data/sex/f/F_ketolides.csv", row.names = FALSE)
+write.csv(F_other, "MEDICINE/data/sex/f/F_other_anti.csv", row.names = FALSE)
+
+# 하위 폴더 바로 불러오기
+F_anti <- read_csv("MEDICINE/data/sex/f/F_anti.csv")
+F_peni <- read_csv("MEDICINE/data/sex/f/F_penicillins.csv")
+F_cepha <- read_csv("MEDICINE/data/sex/f/F_cephalosporins.csv")
+F_tetra <- read_csv("MEDICINE/data/sex/f/F_tetracyclines.csv")
+F_macro <- read_csv("MEDICINE/data/sex/f/F_macrolides.csv")
+F_glyco <- read_csv("MEDICINE/data/sex/f/F_glycopeptides.csv")
+F_amino <- read_csv("MEDICINE/data/sex/f/F_aminoglycosides.csv")
+F_amphe <- read_csv("MEDICINE/data/sex/f/F_amphenicols.csv")
+F_keto <- read_csv("MEDICINE/data/sex/f/F_ketolides.csv")
+F_other <- read_csv("MEDICINE/data/sex/f/F_other_anti.csv")
+
+# csv 파일로 저장(남녀)
+write.csv(sex_anti, "MEDICINE/data/sex/sex_anti.csv", row.names = FALSE)
+write.csv(sex_peni, "MEDICINE/data/sex/sex_penicillins.csv", row.names = FALSE)
+write.csv(sex_cepha, "MEDICINE/data/sex/sex_cephalosporins.csv", row.names = FALSE)
+write.csv(sex_tetra, "MEDICINE/data/sex/sex_tetracyclines.csv", row.names = FALSE)
+write.csv(sex_macro, "MEDICINE/data/sex/sex_macrolides.csv", row.names = FALSE)
+write.csv(sex_glyco, "MEDICINE/data/sex/sex_glycopeptides.csv", row.names = FALSE)
+write.csv(sex_amino, "MEDICINE/data/sex/sex_aminoglycosides.csv", row.names = FALSE)
+write.csv(sex_amphe, "MEDICINE/data/sex/sex_amphenicols.csv", row.names = FALSE)
+write.csv(sex_keto, "MEDICINE/data/sex/sex_ketolides.csv", row.names = FALSE)
+write.csv(sex_other, "MEDICINE/data/sex/sex_other_anti.csv", row.names = FALSE)
+
+# 하위 폴더 바로 불러오기
+sex_anti <- read_csv("MEDICINE/data/sex/sex_anti.csv")
+sex_peni <- read_csv("MEDICINE/data/sex/sex_penicillins.csv")
+sex_cepha <- read_csv("MEDICINE/data/sex/sex_cephalosporins.csv")
+sex_tetra <- read_csv("MEDICINE/data/sex/sex_tetracyclines.csv")
+sex_macro <- read_csv("MEDICINE/data/sex/sex_macrolides.csv")
+sex_glyco <- read_csv("MEDICINE/data/sex/sex_glycopeptides.csv")
+sex_amino <- read_csv("MEDICINE/data/sex/sex_aminoglycosides.csv")
+sex_amphe <- read_csv("MEDICINE/data/sex/sex_amphenicols.csv")
+sex_keto <- read_csv("MEDICINE/data/sex/sex_ketolides.csv")
+sex_other <- read_csv("MEDICINE/data/sex/sex_other_anti.csv")
+
+
+
+
+
+#그래프 ----
+options(scipen = 5)
 ggplot(data = sex_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -243,14 +275,14 @@ ggplot(data = sex_anti, aes(x = date, y = category_pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 7500000)) +
-  scale_x_date(name="Date", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name="Date", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-12-01'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red",
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown",
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
                      name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
                                                    "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
                                                    "Ketolides", "Other")) +
-  facet_wrap(~Source) +
+  facet_wrap(~SEX_TYPE) +
   labs(title = "남녀 pt") +  # 그래프 제목 추가
   theme_gray(20) +
   theme(panel.background = element_blank(),
@@ -297,7 +329,7 @@ ggplot(data = sex_anti, aes(x = date, y = category_pres)) +
                      name = "Category", labels = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines",
                                                    "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols",
                                                    "Ketolides", "Other")) +
-  facet_wrap(~Source) +
+  facet_wrap(~SEX_TYPE)+
   labs(title = "남녀 pres") +  # 그래프 제목 추가
   theme_gray(20) +
   theme(panel.background = element_blank(),
