@@ -58,7 +58,7 @@ head(medicine_result_anti_class$pt)
 #category로 합치기
 medicine_result_anti_class2 <- medicine_result_anti_class %>% 
   group_by(USE_YEAR,USE_MONTH,category,YOYANG_CLSFC_CD_ADJ) %>% 
-  summarise(category_pres = sum(pres), category_pt = sum(pt))
+  summarise(category_pres = sum(pres), category_pt = sum(pt), category_amt = sum(amt))
 
 #날짜 만들기
 medicine_result_anti_class2$date = paste0(medicine_result_anti_class2$USE_YEAR,medicine_result_anti_class2$USE_MONTH)
@@ -68,12 +68,15 @@ medicine_result_anti_class2$date <- as.Date(paste(as.character(medicine_result_a
 medicine_result_anti_class2 <- medicine_result_anti_class2 %>% 
   mutate(YOYANG_CLSFC_CD_ADJ = factor(YOYANG_CLSFC_CD_ADJ, levels = c(0,1,2,3), labels = c("상급종합병원", "종합병원", "병원", "의원")))
 
-#각 성분별 분류
-##상급종합병원 항생제 분류
+
+
+#각 성분별 분류----
+##상급종합병원 항생제 분류----
 SC_anti <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "상급종합병원") %>% 
   group_by(USE_MONTH, USE_YEAR, YOYANG_CLSFC_CD_ADJ, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), .groups = 'drop')
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
+            category_amt = sum(category_amt),.groups = 'drop')
 
 SC_peni <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "상급종합병원") %>% 
@@ -111,12 +114,28 @@ SC_other <- medicine_result_anti_class2 %>%
   filter(YOYANG_CLSFC_CD_ADJ == "상급종합병원") %>% 
   filter(category == "Other")
 
+# csv 파일로 저장(상급종합병원)
+write.csv(SC_anti, "MEDICINE/data/class/sc/SC_anti.csv", row.names = FALSE)
+write.csv(SC_peni, "MEDICINE/data/class/sc/SC_penicillins.csv", row.names = FALSE)
+write.csv(SC_cepha, "MEDICINE/data/class/sc/SC_cephalosporins.csv", row.names = FALSE)
+write.csv(SC_tetra, "MEDICINE/data/class/sc/SC_tetracyclines.csv", row.names = FALSE)
+write.csv(SC_macro, "MEDICINE/data/class/sc/SC_macrolides.csv", row.names = FALSE)
+write.csv(SC_glyco, "MEDICINE/data/class/sc/SC_glycopeptides.csv", row.names = FALSE)
+write.csv(SC_amino, "MEDICINE/data/class/sc/SC_aminoglycosides.csv", row.names = FALSE)
+write.csv(SC_amphe, "MEDICINE/data/class/sc/SC_amphenicols.csv", row.names = FALSE)
+write.csv(SC_keto, "MEDICINE/data/class/sc/SC_ketolides.csv", row.names = FALSE)
+write.csv(SC_other, "MEDICINE/data/class/sc/SC_other_anti.csv", row.names = FALSE)
 
-##종합병원 항생제 분류
+head(SC_peni)
+
+
+
+##종합병원 항생제 분류----
 C_anti <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "종합병원") %>% 
   group_by(USE_MONTH, USE_YEAR, YOYANG_CLSFC_CD_ADJ, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), .groups = 'drop')
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
+            category_amt = sum(category_amt),.groups = 'drop')
 
 C_peni <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "종합병원") %>% 
@@ -155,11 +174,27 @@ C_other <- medicine_result_anti_class2 %>%
   filter(category == "Other")
 
 
-##병원 항생제 분류
+# csv 파일로 저장
+write.csv(C_anti, "MEDICINE/data/class/c/C_anti.csv", row.names = FALSE)
+write.csv(C_peni, "MEDICINE/data/class/c/C_penicillins.csv", row.names = FALSE)
+write.csv(C_cepha, "MEDICINE/data/class/c/C_cephalosporins.csv", row.names = FALSE)
+write.csv(C_tetra, "MEDICINE/data/class/c/C_tetracyclines.csv", row.names = FALSE)
+write.csv(C_macro, "MEDICINE/data/class/c/C_macrolides.csv", row.names = FALSE)
+write.csv(C_glyco, "MEDICINE/data/class/c/C_glycopeptides.csv", row.names = FALSE)
+write.csv(C_amino, "MEDICINE/data/class/c/C_aminoglycosides.csv", row.names = FALSE)
+write.csv(C_amphe, "MEDICINE/data/class/c/C_amphenicols.csv", row.names = FALSE)
+write.csv(C_keto, "MEDICINE/data/class/c/C_ketolides.csv", row.names = FALSE)
+write.csv(C_other, "MEDICINE/data/class/c/C_other_anti.csv", row.names = FALSE)
+
+head(C_peni)
+
+
+##병원 항생제 분류----
 H_anti <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "병원") %>% 
   group_by(USE_MONTH, USE_YEAR, YOYANG_CLSFC_CD_ADJ, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), .groups = 'drop')
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
+            category_amt = sum(category_amt) ,.groups = 'drop')
 
 H_peni <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "병원") %>% 
@@ -197,20 +232,28 @@ H_other <- medicine_result_anti_class2 %>%
   filter(YOYANG_CLSFC_CD_ADJ == "병원") %>% 
   filter(category == "Other")
 
+# csv 파일로 저장
+write.csv(H_anti, "MEDICINE/data/class/h/H_anti.csv", row.names = FALSE)
+write.csv(H_peni, "MEDICINE/data/class/h/H_penicillins.csv", row.names = FALSE)
+write.csv(H_cepha, "MEDICINE/data/class/h/H_cephalosporins.csv", row.names = FALSE)
+write.csv(H_tetra, "MEDICINE/data/class/h/H_tetracyclines.csv", row.names = FALSE)
+write.csv(H_macro, "MEDICINE/data/class/h/H_macrolides.csv", row.names = FALSE)
+write.csv(H_glyco, "MEDICINE/data/class/h/H_glycopeptides.csv", row.names = FALSE)
+write.csv(H_amino, "MEDICINE/data/class/h/H_aminoglycosides.csv", row.names = FALSE)
+write.csv(H_amphe, "MEDICINE/data/class/h/H_amphenicols.csv", row.names = FALSE)
+write.csv(H_keto, "MEDICINE/data/class/h/H_ketolides.csv", row.names = FALSE)
+write.csv(H_other, "MEDICINE/data/class/h/H_other_anti.csv", row.names = FALSE)
 
-##의원 항생제 분류
+head(H_peni)
+
+
+
+##의원 항생제 분류----
 P_anti <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "의원") %>% 
   group_by(USE_MONTH, USE_YEAR, YOYANG_CLSFC_CD_ADJ, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), .groups = 'drop')
-
-library(dplyr)
-
-## 의원 항생제 분류
-P_anti <- medicine_result_anti_class2 %>% 
-  filter(YOYANG_CLSFC_CD_ADJ == "의원") %>% 
-  group_by(USE_MONTH, USE_YEAR, YOYANG_CLSFC_CD_ADJ, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), .groups = 'drop')
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
+            category_amt = sum(category_amt) ,.groups = 'drop')
 
 P_peni <- medicine_result_anti_class2 %>% 
   filter(YOYANG_CLSFC_CD_ADJ == "의원") %>% 
@@ -248,80 +291,98 @@ P_other <- medicine_result_anti_class2 %>%
   filter(YOYANG_CLSFC_CD_ADJ == "의원") %>% 
   filter(category == "Other")
 
+# csv 파일로 저장
+write.csv(P_anti, "MEDICINE/data/class/p/P_anti.csv", row.names = FALSE)
+write.csv(P_peni, "MEDICINE/data/class/p/P_penicillins.csv", row.names = FALSE)
+write.csv(P_cepha, "MEDICINE/data/class/p/P_cephalosporins.csv", row.names = FALSE)
+write.csv(P_tetra, "MEDICINE/data/class/p/P_tetracyclines.csv", row.names = FALSE)
+write.csv(P_macro, "MEDICINE/data/class/p/P_macrolides.csv", row.names = FALSE)
+write.csv(P_glyco, "MEDICINE/data/class/p/P_glycopeptides.csv", row.names = FALSE)
+write.csv(P_amino, "MEDICINE/data/class/p/P_aminoglycosides.csv", row.names = FALSE)
+write.csv(P_amphe, "MEDICINE/data/class/p/P_amphenicols.csv", row.names = FALSE)
+write.csv(P_keto, "MEDICINE/data/class/p/P_ketolides.csv", row.names = FALSE)
+write.csv(P_other, "MEDICINE/data/class/p/P_other_anti.csv", row.names = FALSE)
+
+head(P_peni)
 
 
-####그래프 ----
 
-#전체(pt, pres)
+#그래프 ----
+
+##전체(pt, pres,amt) 데이터 로딩 ----
+#하위폴더 불러오기
+SC_anti <- read_csv("MEDICINE/data/class/sc/SC_anti.csv")
+SC_peni <- read_csv("MEDICINE/data/class/sc/SC_penicillins.csv")
+SC_cepha <- read_csv("MEDICINE/data/class/sc/SC_cephalosporins.csv")
+SC_tetra <- read_csv("MEDICINE/data/class/sc/SC_tetracyclines.csv")
+SC_macro <- read_csv("MEDICINE/data/class/sc/SC_macrolides.csv")
+SC_glyco <- read_csv("MEDICINE/data/class/sc/SC_glycopeptides.csv")
+SC_amino <- read_csv("MEDICINE/data/class/sc/SC_aminoglycosides.csv")
+SC_amphe <- read_csv("MEDICINE/data/class/sc/SC_amphenicols.csv")
+SC_keto <- read_csv("MEDICINE/data/class/sc/SC_ketolides.csv")
+SC_other <- read_csv("MEDICINE/data/class/sc/SC_other_anti.csv")
+
+head(SC_peni)
+
+# 저장된 데이터 불러오기
+C_anti <- read_csv("MEDICINE/data/class/c/C_anti.csv")
+C_peni <- read_csv("MEDICINE/data/class/c/C_penicillins.csv")
+C_cepha <- read_csv("MEDICINE/data/class/c/C_cephalosporins.csv")
+C_tetra <- read_csv("MEDICINE/data/class/c/C_tetracyclines.csv")
+C_macro <- read_csv("MEDICINE/data/class/c/C_macrolides.csv")
+C_glyco <- read_csv("MEDICINE/data/class/c/C_glycopeptides.csv")
+C_amino <- read_csv("MEDICINE/data/class/c/C_aminoglycosides.csv")
+C_amphe <- read_csv("MEDICINE/data/class/c/C_amphenicols.csv")
+C_keto <- read_csv("MEDICINE/data/class/c/C_ketolides.csv")
+C_other <- read_csv("MEDICINE/data/class/c/C_other_anti.csv")
+
+head(C_peni)
+
+# 저장된 데이터 불러오기
+H_anti <- read_csv("MEDICINE/data/class/h/H_anti.csv")
+H_peni <- read_csv("MEDICINE/data/class/h/H_penicillins.csv")
+H_cepha <- read_csv("MEDICINE/data/class/h/H_cephalosporins.csv")
+H_tetra <- read_csv("MEDICINE/data/class/h/H_tetracyclines.csv")
+H_macro <- read_csv("MEDICINE/data/class/h/H_macrolides.csv")
+H_glyco <- read_csv("MEDICINE/data/class/h/H_glycopeptides.csv")
+H_amino <- read_csv("MEDICINE/data/class/h/H_aminoglycosides.csv")
+H_amphe <- read_csv("MEDICINE/data/class/h/H_amphenicols.csv")
+H_keto <- read_csv("MEDICINE/data/class/h/H_ketolides.csv")
+H_other <- read_csv("MEDICINE/data/class/h/H_other_anti.csv")
+
+head(H_peni)
+
+
+# 저장된 데이터 불러오기
+P_anti <- read_csv("MEDICINE/data/class/p/P_anti.csv")
+P_peni <- read_csv("MEDICINE/data/class/p/P_penicillins.csv")
+P_cepha <- read_csv("MEDICINE/data/class/p/P_cephalosporins.csv")
+P_tetra <- read_csv("MEDICINE/data/class/p/P_tetracyclines.csv")
+P_macro <- read_csv("MEDICINE/data/class/p/P_macrolides.csv")
+P_glyco <- read_csv("MEDICINE/data/class/p/P_glycopeptides.csv")
+P_amino <- read_csv("MEDICINE/data/class/p/P_aminoglycosides.csv")
+P_amphe <- read_csv("MEDICINE/data/class/p/P_amphenicols.csv")
+P_keto <- read_csv("MEDICINE/data/class/p/P_ketolides.csv")
+P_other <- read_csv("MEDICINE/data/class/p/P_other_anti.csv")
+
+head(P_peni)
+
+#데이터 통합
 options(scipen = 5)
-#전체 pt
-# 상급종합병원, 종합병원, 병원, 의원 데이터에 Source 열 추가
-SC_anti$Source <- "상급종합병원"
-C_anti$Source <- "종합병원"
-H_anti$Source <- "병원"
-P_anti$Source <- "의원"
-
-# 데이터 결합
 class_anti <- rbind(SC_anti, C_anti, H_anti, P_anti)
-
-# 다른 항생제 카테고리에도 동일하게 적용
-SC_peni$Source <- "상급종합병원"
-C_peni$Source <- "종합병원"
-H_peni$Source <- "병원"
-P_peni$Source <- "의원"
 class_peni <- rbind(SC_peni, C_peni, H_peni, P_peni)
-
-SC_cepha$Source <- "상급종합병원"
-C_cepha$Source <- "종합병원"
-H_cepha$Source <- "병원"
-P_cepha$Source <- "의원"
 class_cepha <- rbind(SC_cepha, C_cepha, H_cepha, P_cepha)
-
-# 나머지 데이터셋도 동일한 방법으로 처리
-SC_tetra$Source <- "상급종합병원"
-C_tetra$Source <- "종합병원"
-H_tetra$Source <- "병원"
-P_tetra$Source <- "의원"
 class_tetra <- rbind(SC_tetra, C_tetra, H_tetra, P_tetra)
-
-SC_macro$Source <- "상급종합병원"
-C_macro$Source <- "종합병원"
-H_macro$Source <- "병원"
-P_macro$Source <- "의원"
 class_macro <- rbind(SC_macro, C_macro, H_macro, P_macro)
-
-SC_glyco$Source <- "상급종합병원"
-C_glyco$Source <- "종합병원"
-H_glyco$Source <- "병원"
-P_glyco$Source <- "의원"
 class_glyco <- rbind(SC_glyco, C_glyco, H_glyco, P_glyco)
-
-SC_amino$Source <- "상급종합병원"
-C_amino$Source <- "종합병원"
-H_amino$Source <- "병원"
-P_amino$Source <- "의원"
-class_amino <- rbind(SC_amino, C_amino, H_amino, P_amino)
-
-SC_amphe$Source <- "상급종합병원"
-C_amphe$Source <- "종합병원"
-H_amphe$Source <- "병원"
-P_amphe$Source <- "의원"
-class_amphe <- rbind(SC_amphe, C_amphe, H_amphe, P_amphe)
-
-SC_keto$Source <- "상급종합병원"
-C_keto$Source <- "종합병원"
-H_keto$Source <- "병원"
-P_keto$Source <- "의원"
 class_keto <- rbind(SC_keto, C_keto, H_keto, P_keto)
-
-SC_other$Source <- "상급종합병원"
-C_other$Source <- "종합병원"
-H_other$Source <- "병원"
-P_other$Source <- "의원"
+class_amino <- rbind(SC_amino, C_amino, H_amino, P_amino)
+class_amphe <- rbind(SC_amphe, C_amphe, H_amphe, P_amphe)
 class_other <- rbind(SC_other, C_other, H_other, P_other)
 
 
-#그래프
+
+##그래프 ----
 ggplot(data = class_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -347,13 +408,13 @@ ggplot(data = class_anti, aes(x = date, y = category_pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 8000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31'))) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
                      name = "Category") +
   labs(title = "Patient number by Hospital Classification") +
-  facet_wrap(~Source) +  # 패싯을 추가하여 각 병원 등급 구분
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
