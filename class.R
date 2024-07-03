@@ -383,6 +383,10 @@ class_other <- rbind(SC_other, C_other, H_other, P_other)
 
 
 ##그래프 ----
+options(scipen = 5)
+###전체----
+####전체 pt ----
+#y축 값을 10,000,000으로 지정
 ggplot(data = class_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -407,11 +411,15 @@ ggplot(data = class_anti, aes(x = date, y = category_pt)) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Patient Number", limits = c(0, 8000000)) +
-  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31'))) +
+  scale_y_continuous(name="Patient Number", limits = c(0, 10000000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
   labs(title = "Patient number by Hospital Classification") +
   facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
@@ -419,7 +427,7 @@ ggplot(data = class_anti, aes(x = date, y = category_pt)) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
@@ -427,7 +435,9 @@ ggplot(data = class_anti, aes(x = date, y = category_pt)) +
 
 
 
-#전체 pres
+
+####전체 pres ----
+#y축 값을 12,500,000으로 지정
 ggplot(data = class_anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -452,19 +462,73 @@ ggplot(data = class_anti, aes(x = date, y = category_pres)) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Prescriptiont Number", limits = c(0, 10000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Prescriptiont Number", limits = c(0, 12500000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
   labs(title = "Prescription number by Hospital Classification") +
-  facet_wrap(~Source) +  # 패싯을 추가하여 각 병원 등급 구분
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
+        axis.text.y = element_text(face = 'bold'),
+        axis.title.y = element_text(face = 'bold'),
+        plot.title = element_text(size = rel(1.0)),
+        legend.title = element_blank())
+
+
+####전체 amt ----
+options(scipen = 8)
+#y축 값을 60,000,000,000으로 지정
+ggplot(data = class_anti, aes(x = date, y = category_amt)) +
+  geom_point(aes(color = "Total(anti)"), size = 1.5) +
+  geom_line(aes(color = "Total(anti)")) +
+  geom_point(data = class_peni, aes(color = "Penicillins"), size = 1.5) +
+  geom_line(data = class_peni, aes(color = "Penicillins")) +
+  geom_point(data = class_cepha, aes(color = "Cephalosporins"), size = 1.5) +
+  geom_line(data = class_cepha, aes(color = "Cephalosporins")) +
+  geom_point(data = class_tetra, aes(color = "Tetracyclines"), size = 1.5) +
+  geom_line(data = class_tetra, aes(color = "Tetracyclines")) +
+  geom_point(data = class_macro, aes(color = "Macrolides"), size = 1.5) +
+  geom_line(data = class_macro, aes(color = "Macrolides")) +
+  geom_point(data = class_glyco, aes(color = "Glycopeptides"), size = 1.5) +
+  geom_line(data = class_glyco, aes(color = "Glycopeptides")) +
+  geom_point(data = class_amino, aes(color = "Aminoglycosides"), size = 1.5) +
+  geom_line(data = class_amino, aes(color = "Aminoglycosides")) +
+  geom_point(data = class_amphe, aes(color = "Amphenicols"), size = 1.5) +
+  geom_line(data = class_amphe, aes(color = "Amphenicols")) +
+  geom_point(data = class_keto, aes(color = "Ketolides"), size = 1.5) +
+  geom_line(data = class_keto, aes(color = "Ketolides")) +
+  geom_point(data = class_other, aes(color = "Other"), size = 1.5) +
+  geom_line(data = class_other, aes(color = "Other")) +
+  geom_hline(yintercept = 0, linetype = "solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
+  geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
+  scale_y_continuous(name="Total amount", limits = c(0, 60000000000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
+  scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
+                                "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
+                                "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
+                     name = "Category") +
+  labs(title = "Total amount by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
+  theme_gray(20) +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_line(color = "grey90", size = 0.5),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
@@ -472,8 +536,9 @@ ggplot(data = class_anti, aes(x = date, y = category_pres)) +
 
 
 
-#상급종합병원(pt,pres)
-#상급종합병원 pt
+###상급종합병원(pt,pres,amt)----
+####상급종합병원 pt ----
+#y축 값을 250,000으로 지정
 ggplot(data = SC_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -499,23 +564,31 @@ ggplot(data = SC_anti, aes(x = date, y = category_pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
   scale_y_continuous(name="Patient Number", limits = c(0, 250000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
-  labs(title = "상급종합병원 pt") +
+  labs(title = "Patient number by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
-#상급종합병원 pres
+
+
+####상급종합병원 pres ----
+#y축을 250,000으로 지정
 ggplot(data = SC_anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -541,24 +614,82 @@ ggplot(data = SC_anti, aes(x = date, y = category_pres)) +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
   scale_y_continuous(name="Prescription Number", limits = c(0, 250000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
-  labs(title = "상급종합병원 pt") +
+  labs(title = "Prescription number by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
-#종합병원(pt,pres)
-# 종합병원 pt
+####상급종합병원원 amt ----
+options(scipen = 8)
+#y축 값을 12,000,000,000으로 지정
+ggplot(data = SC_anti, aes(x = date, y = category_amt)) +
+  geom_point(aes(color = "Total(anti)"), size = 1.5) +
+  geom_line(aes(color = "Total(anti)")) +
+  geom_point(data = SC_peni, aes(color = "Penicillins"), size = 1.5) +
+  geom_line(data = SC_peni, aes(color = "Penicillins")) +
+  geom_point(data = SC_cepha, aes(color = "Cephalosporins"), size = 1.5) +
+  geom_line(data = SC_cepha, aes(color = "Cephalosporins")) +
+  geom_point(data = SC_tetra, aes(color = "Tetracyclines"), size = 1.5) +
+  geom_line(data = SC_tetra, aes(color = "Tetracyclines")) +
+  geom_point(data = SC_macro, aes(color = "Macrolides"), size = 1.5) +
+  geom_line(data = SC_macro, aes(color = "Macrolides")) +
+  geom_point(data = SC_glyco, aes(color = "Glycopeptides"), size = 1.5) +
+  geom_line(data = SC_glyco, aes(color = "Glycopeptides")) +
+  geom_point(data = SC_amino, aes(color = "Aminoglycosides"), size = 1.5) +
+  geom_line(data = SC_amino, aes(color = "Aminoglycosides")) +
+  geom_point(data = SC_amphe, aes(color = "Amphenicols"), size = 1.5) +
+  geom_line(data = SC_amphe, aes(color = "Amphenicols")) +
+  geom_point(data = SC_keto, aes(color = "Ketolides"), size = 1.5) +
+  geom_line(data = SC_keto, aes(color = "Ketolides")) +
+  geom_point(data = SC_other, aes(color = "Other"), size = 1.5) +
+  geom_line(data = SC_other, aes(color = "Other")) +
+  geom_hline(yintercept = 0, linetype = "solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
+  geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
+  scale_y_continuous(name="Total amount", limits = c(0, 12000000000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
+  scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
+                                "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
+                                "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
+                     name = "Category") +
+  labs(title = "Total amount by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
+  theme_gray(20) +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_line(color = "grey90", size = 0.5),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
+        axis.text.y = element_text(face = 'bold'),
+        axis.title.y = element_text(face = 'bold'),
+        plot.title = element_text(size = rel(1.0)),
+        legend.title = element_blank())
+
+
+
+
+###종합병원(pt,pres,amt)----
+#### 종합병원 pt----
+#y축은 750,000으로 지정
 ggplot(data = C_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -583,24 +714,31 @@ ggplot(data = C_anti, aes(x = date, y = category_pt)) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Patient Number", limits = c(0, 1000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Patient Number", limits = c(0, 750000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
-  labs(title = "종합병원 pt") +
+  labs(title = "Patient number by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
-# 종합병원 pt
+
+#### 종합병원 pres----
+#y축을 750,000으로 지정
 ggplot(data = C_anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -625,25 +763,85 @@ ggplot(data = C_anti, aes(x = date, y = category_pres)) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Prescription Number", limits = c(0, 1000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Prescription Number", limits = c(0, 750000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
-  labs(title = "종합병원 pres") +
+  labs(title = "Prescription number by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
-#병원(pt,pres)
-#병원 pt
+
+
+####종합병원 amt ----
+options(scipen = 8)
+#y축 값을 20,000,000,000으로 지정
+ggplot(data = C_anti, aes(x = date, y = category_amt)) +
+  geom_point(aes(color = "Total(anti)"), size = 1.5) +
+  geom_line(aes(color = "Total(anti)")) +
+  geom_point(data = C_peni, aes(color = "Penicillins"), size = 1.5) +
+  geom_line(data = C_peni, aes(color = "Penicillins")) +
+  geom_point(data = C_cepha, aes(color = "Cephalosporins"), size = 1.5) +
+  geom_line(data = C_cepha, aes(color = "Cephalosporins")) +
+  geom_point(data = C_tetra, aes(color = "Tetracyclines"), size = 1.5) +
+  geom_line(data = C_tetra, aes(color = "Tetracyclines")) +
+  geom_point(data = C_macro, aes(color = "Macrolides"), size = 1.5) +
+  geom_line(data = C_macro, aes(color = "Macrolides")) +
+  geom_point(data = C_glyco, aes(color = "Glycopeptides"), size = 1.5) +
+  geom_line(data = C_glyco, aes(color = "Glycopeptides")) +
+  geom_point(data = C_amino, aes(color = "Aminoglycosides"), size = 1.5) +
+  geom_line(data = C_amino, aes(color = "Aminoglycosides")) +
+  geom_point(data = C_amphe, aes(color = "Amphenicols"), size = 1.5) +
+  geom_line(data = C_amphe, aes(color = "Amphenicols")) +
+  geom_point(data = C_keto, aes(color = "Ketolides"), size = 1.5) +
+  geom_line(data = C_keto, aes(color = "Ketolides")) +
+  geom_point(data = C_other, aes(color = "Other"), size = 1.5) +
+  geom_line(data = C_other, aes(color = "Other")) +
+  geom_hline(yintercept = 0, linetype = "solid") +
+  geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
+  geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
+  scale_y_continuous(name="Total amount", limits = c(0, 20000000000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
+  scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
+                                "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
+                                "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
+                     name = "Category") +
+  labs(title = "Total amount by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
+  theme_gray(20) +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_line(color = "grey90", size = 0.5),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
+        axis.text.y = element_text(face = 'bold'),
+        axis.title.y = element_text(face = 'bold'),
+        plot.title = element_text(size = rel(1.0)),
+        legend.title = element_blank())
+
+
+
+
+###병원(pt,pres,amt) ----
+####병원 pt ----
+#y축을 1,000,000지정
 ggplot(data = H_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -668,24 +866,31 @@ ggplot(data = H_anti, aes(x = date, y = category_pt)) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Patient Number", limits = c(0, 1500000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Patient Number", limits = c(0, 1000000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
-  labs(title = "병원 pt") +
+  labs(title = "Patient number by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
-#병원 pres
+
+####병원 pres----
+#y축을 1,250,000으로 지정
 ggplot(data = H_anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -710,18 +915,23 @@ ggplot(data = H_anti, aes(x = date, y = category_pres)) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Prescription Number", limits = c(0, 1500000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Prescription Number", limits = c(0, 1250000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
-  labs(title = "병원 pres") +
+  labs(title = "Prescription number by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
@@ -729,8 +939,10 @@ ggplot(data = H_anti, aes(x = date, y = category_pres)) +
 
 
 
-#의원(pt,pres)
-#의원 pt
+
+
+###의원(pt,pres,amt) ----
+####의원 pt----
 ggplot(data = P_anti, aes(x = date, y = category_pt)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -772,7 +984,7 @@ ggplot(data = P_anti, aes(x = date, y = category_pt)) +
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
 
-#의원 pres
+####의원 pres----
 ggplot(data = P_anti, aes(x = date, y = category_pres)) +
   geom_point(aes(color = "Total(anti)"), size = 1.5) +
   geom_line(aes(color = "Total(anti)")) +
@@ -797,22 +1009,28 @@ ggplot(data = P_anti, aes(x = date, y = category_pres)) +
   geom_hline(yintercept = 0, linetype = "solid") +
   geom_vline(xintercept = as.numeric(as.Date("2020-01-01")), linetype="dashed") +
   geom_vline(xintercept = as.numeric(as.Date("2022-01-01")), linetype="dashed") +
-  scale_y_continuous(name="Prescription Number", limits = c(0, 15000000)) +
-  scale_x_date(name=" ", breaks = "12 months", date_labels = "%Y", limits = as.Date(c('2018-01-01','2023-09-30'))) +
+  scale_y_continuous(name="Prescription Number", limits = c(0, 12500000)) +
+  scale_x_date(name=" ", breaks = "3 months", date_labels = paste0("%Y",".","%m"), limits = as.Date(c('2018-01-01','2023-12-31')),
+               expand = c(0,1)) +
   scale_color_manual(values = c("Total(anti)" = "Black", "Penicillins" = "Blue", "Cephalosporins" = "Red", 
                                 "Tetracyclines" = "Green", "Macrolides" = "Purple", "Glycopeptides" = "Brown", 
                                 "Aminoglycosides" = "Gray", "Amphenicols" = "Orange", "Ketolides" = "Pink", "Other" = "Turquoise"),
+                     breaks = c("Total(anti)", "Penicillins", "Cephalosporins", "Tetracyclines", 
+                                "Macrolides", "Glycopeptides", "Aminoglycosides", "Amphenicols", 
+                                "Ketolides", "Other"),
                      name = "Category") +
-  labs(title = "의원 pres") +
+  labs(title = "Prescription number by Hospital Classification") +
+  facet_wrap(~YOYANG_CLSFC_CD_ADJ) +  # 패싯을 추가하여 각 병원 등급 구분
   theme_gray(20) +
   theme(panel.background = element_blank(),
         panel.grid.major = element_line(color = "grey90", size = 0.5),
         axis.ticks = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold'),
+        axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold', size = 10),
         axis.text.y = element_text(face = 'bold'),
         axis.title.y = element_text(face = 'bold'),
         plot.title = element_text(size = rel(1.0)),
         legend.title = element_blank())
+
 
 
 
