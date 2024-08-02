@@ -4,7 +4,7 @@ library(nlme)
 library(readxl)
 
 ## pt ----
-pt <- readxl::read_xlsx("pt.xlsx")
+pt <- readxl::read_xlsx("MEDICINE/analysis/ARMA/pt.xlsx")
 
 # P와 Q 탐지
 mod.1 = quantity.x ~ Time + Intervention + Post.intervention.time + Intervention.2 + Post.intervention.2.time
@@ -152,7 +152,7 @@ ggplot(pt, aes(Time, quantity.x2)) +
 
 
 ## pres 데이터 처리 ----
-pres <- readxl::read_xlsx("pres.xlsx")
+pres <- readxl::read_xlsx("MEDICINE/analysis/ARMA/pres.xlsx")
 
 # P와 Q 탐지
 mod.1 = quantity.x ~ Time + Intervention + Post.intervention.time + Intervention.2 + Post.intervention.2.time
@@ -299,7 +299,7 @@ ggplot(pres, aes(Time, quantity.x2)) +
 
 
 ## amt 데이터 처리 ----
-amt <- readxl::read_xlsx("amt.xlsx")
+amt <- readxl::read_xlsx("MEDICINE/analysis/ARMA/amt.xlsx")
 
 # P와 Q 탐지
 mod.1 = quantity.x ~ Time + Intervention + Post.intervention.time + Intervention.2 + Post.intervention.2.time
