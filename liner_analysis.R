@@ -3,6 +3,8 @@ library(nlme)
 library(AICcmodavg)
 library(writexl)
 library(readxl)
+library(moonBook)
+
 
 
 # total pt ----
@@ -21,12 +23,12 @@ ggplot(data=df, aes(x = date, y = pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.2), label = "2020-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.2), label = "2022-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.1), label = "2020-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.1), label = "2022-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Patient Number", limits = c(0, max(df$pt) * 1.2)) +
   scale_x_date(name="Date", breaks = seq(as.Date("2018-01-01"), as.Date("2023-12-01"), by = "1 year"),
-               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1)) +
+               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1),date_labels = "%Y") +
   
   theme_gray(20)+
   theme(panel.background=element_blank(),
@@ -108,9 +110,9 @@ ggplot(data=df, aes(x = date, y = pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.2), label = "2020-02",
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.1), label = "2020-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.2), label = "2022-02",
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.1), label = "2022-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Patient Number", limits = c(0, max(df$pt) * 1.2)) +
@@ -145,12 +147,12 @@ ggplot(data=df, aes(x = date, y = pres)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.2), label = "2020-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.2), label = "2022-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.1), label = "2020-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.1), label = "2022-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Number", limits = c(0, max(df$pres) * 1.2)) +
   scale_x_date(name="Date", breaks = seq(as.Date("2018-01-01"), as.Date("2023-12-01"), by = "1 year"),
-               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1)) +
+               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1),date_labels ="%Y" ) +
   
   theme_gray(20)+
   theme(panel.background=element_blank(),
@@ -233,9 +235,9 @@ ggplot(data=df, aes(x = date, y = pres)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.2), label = "2020-02",
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.1), label = "2020-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.2), label = "2022-02",
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.1), label = "2022-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Number", limits = c(0, max(df$pres) * 1.2)) +
@@ -271,12 +273,12 @@ ggplot(data=df, aes(x = date, y = amt)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.2), label = "2020-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.2), label = "2022-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.1), label = "2020-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.1), label = "2022-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Amount", limits = c(0, max(df$amt) * 1.2)) +
   scale_x_date(name="Date", breaks = seq(as.Date("2018-01-01"), as.Date("2023-12-01"), by = "1 year"),
-               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1)) +
+               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1),date_labels = "%Y") +
   
   theme_gray(20)+
   theme(panel.background=element_blank(),
@@ -359,9 +361,9 @@ ggplot(data=df, aes(x = date, y = amt)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.2), label = "2020-02",
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.1), label = "2020-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.2), label = "2022-02",
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.1), label = "2022-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Amount", limits = c(0, max(df$amt) * 1.2)) +
@@ -395,7 +397,7 @@ ggplot(data=df, aes(x = date, y = amt)) +
 
 
 # class pt ----
-df <- read_excel("MEDICINE/analysis/liner/classC_liner.xlsx")
+df <- read_excel("MEDICINE/analysis/liner/classP_liner.xlsx")
 View(df)
 
 # add date
@@ -404,18 +406,18 @@ df$date <- as.Date(paste(as.character(df$date), '01'), format='%Y%m%d')
 ##class pt Figure ----
 options(scipen = 10)
 ggplot(data=df, aes(x = date, y = pt)) + 
-  ggtitle("Class C Patient Number") +
+  ggtitle("Class H Patient Number") +
   geom_point(color="black", size=3, alpha=0.3) +
   geom_vline(xintercept = as.numeric(as.Date("2020-02-01")), linetype="dashed", size=1) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.2), label = "2020-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.2), label = "2022-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.1), label = "2020-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.1), label = "2022-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Patient Number", limits = c(0, max(df$pt) * 1.2)) +
   scale_x_date(name="Date", breaks = seq(as.Date("2018-01-01"), as.Date("2023-12-01"), by = "1 year"),
-               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1)) +
+               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1), date_labels = "%Y") +
   
   theme_gray(20)+
   theme(panel.background=element_blank(),
@@ -455,7 +457,7 @@ colnames(coefficients_df)[1] <- "Variable" # 새 열 이름 지정
 
 
 # Write the data frame to an Excel file
-write_xlsx(coefficients_df, "MEDICINE/analysis/liner/table2/classC_pt_liner.xlsx")
+write_xlsx(coefficients_df, "MEDICINE/analysis/liner/table2/classP_pt_liner.xlsx")
 
 df <- df %>% mutate(
   model.a.predictions = predictSE.gls (model.a, df, se.fit=T)$fit,
@@ -482,7 +484,7 @@ df<-df %>% mutate(
 
 
 ggplot(data=df, aes(x = date, y = pt)) + 
-  ggtitle("ClassC Patient Number") +
+  ggtitle("Class P Patient Number") +
   geom_ribbon(aes(ymin = model.c.predictions - (1.96*model.c.se), ymax = model.c.predictions + (1.96*model.c.se)), fill = "lightblue",alpha=0.5)+
   geom_line(aes(date,model.c.predictions),color="blue", lty=2, size=1.5, alpha=0.75)+
   
@@ -497,9 +499,9 @@ ggplot(data=df, aes(x = date, y = pt)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.2), label = "2020-02",
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pt) * 1.1), label = "2020-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.2), label = "2022-02",
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pt) * 1.1), label = "2022-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Patient Number", limits = c(0, max(df$pt) * 1.2)) +
@@ -518,8 +520,9 @@ ggplot(data=df, aes(x = date, y = pt)) +
         legend.title=element_blank())
 
 
+
 #class pres ----
-df <- read_excel("MEDICINE/analysis/liner/classC_liner.xlsx")
+df <- read_excel("MEDICINE/analysis/liner/classP_liner.xlsx")
 View(df)
 
 # add date
@@ -528,18 +531,18 @@ df$date <- as.Date(paste(as.character(df$date), '01'), format='%Y%m%d')
 ##class pres Figure ----
 options(scipen = 10)
 ggplot(data=df, aes(x = date, y = pres)) + 
-  ggtitle("ClassC Perscription Number") +
+  ggtitle("Class P Perscription Number") +
   geom_point(color="black", size=3, alpha=0.3) +
   geom_vline(xintercept = as.numeric(as.Date("2020-02-01")), linetype="dashed", size=1) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.2), label = "2020-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.2), label = "2022-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.1), label = "2020-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.1), label = "2022-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Number", limits = c(0, max(df$pres) * 1.2)) +
   scale_x_date(name="Date", breaks = seq(as.Date("2018-01-01"), as.Date("2023-12-01"), by = "1 year"),
-               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1)) +
+               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1),date_labels = "%Y") +
   
   theme_gray(20)+
   theme(panel.background=element_blank(),
@@ -580,7 +583,7 @@ colnames(coefficients_df)[1] <- "Variable" # 새 열 이름 지정
 
 
 # Write the data frame to an Excel file
-write_xlsx(coefficients_df, "MEDICINE/analysis/liner/table2/classC_pres_liner.xlsx")
+write_xlsx(coefficients_df, "MEDICINE/analysis/liner/table2/classP_pres_liner.xlsx")
 
 df <- df %>% mutate(
   model.a.predictions = predictSE.gls (model.a, df, se.fit=T)$fit,
@@ -607,7 +610,7 @@ df<-df %>% mutate(
 
 
 ggplot(data=df, aes(x = date, y = pres)) + 
-  ggtitle("ClassC Perscription Number") +
+  ggtitle("Class P Perscription Number") +
   geom_ribbon(aes(ymin = model.c.predictions - (1.96*model.c.se), ymax = model.c.predictions + (1.96*model.c.se)), fill = "lightblue",alpha=0.5)+
   geom_line(aes(date,model.c.predictions),color="blue", lty=2, size=1.5, alpha=0.75)+
   
@@ -622,9 +625,9 @@ ggplot(data=df, aes(x = date, y = pres)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.2), label = "2020-02",
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(pres) * 1.1), label = "2020-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.2), label = "2022-02",
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(pres) * 1.1), label = "2022-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Number", limits = c(0, max(df$pres) * 1.2)) +
@@ -645,7 +648,7 @@ ggplot(data=df, aes(x = date, y = pres)) +
 
 
 #class amt ----
-df <- read_excel("MEDICINE/analysis/liner/classC_liner.xlsx")
+df <- read_excel("MEDICINE/analysis/liner/classP_liner.xlsx")
 View(df)
 
 # add date
@@ -654,18 +657,18 @@ df$date <- as.Date(paste(as.character(df$date), '01'), format='%Y%m%d')
 ##class amt Figure ----
 options(scipen = 10)
 ggplot(data=df, aes(x = date, y = amt)) + 
-  ggtitle("ClassC Perscription Amount") +
+  ggtitle("Class P Perscription Amount") +
   geom_point(color="black", size=3, alpha=0.3) +
   geom_vline(xintercept = as.numeric(as.Date("2020-02-01")), linetype="dashed", size=1) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.2), label = "2020-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.2), label = "2022-02-01", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.1), label = "2020-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.1), label = "2022-02", fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Amount", limits = c(0, max(df$amt) * 1.2)) +
   scale_x_date(name="Date", breaks = seq(as.Date("2018-01-01"), as.Date("2023-12-01"), by = "1 year"),
-               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1)) +
+               limits = as.Date(c('2018-01-01','2023-12-01')),expand = c(0,1),date_labels = "%Y") +
   
   theme_gray(20)+
   theme(panel.background=element_blank(),
@@ -706,7 +709,7 @@ colnames(coefficients_df)[1] <- "Variable" # 새 열 이름 지정
 
 
 # Write the data frame to an Excel file
-write_xlsx(coefficients_df, "MEDICINE/analysis/liner/table2/classC_amt_liner.xlsx")
+write_xlsx(coefficients_df, "MEDICINE/analysis/liner/table2/classP_amt_liner.xlsx")
 
 df <- df %>% mutate(
   model.a.predictions = predictSE.gls (model.a, df, se.fit=T)$fit,
@@ -733,7 +736,7 @@ df<-df %>% mutate(
 
 
 ggplot(data=df, aes(x = date, y = amt)) + 
-  ggtitle("ClassC Perscription Amount") +
+  ggtitle("Class P Perscription Amount") +
   geom_ribbon(aes(ymin = model.c.predictions - (1.96*model.c.se), ymax = model.c.predictions + (1.96*model.c.se)), fill = "lightblue",alpha=0.5)+
   geom_line(aes(date,model.c.predictions),color="blue", lty=2, size=1.5, alpha=0.75)+
   
@@ -748,9 +751,9 @@ ggplot(data=df, aes(x = date, y = amt)) +
   geom_vline(xintercept = as.numeric(as.Date("2022-02-01")), linetype="dashed", size=1) +
   geom_hline(yintercept=0, linetype="solid", size=2) +
   geom_vline(xintercept = as.numeric(as.Date("2018-01-01")), linetype="solid", size=2)+
-  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.2), label = "2020-02",
+  geom_label(aes(x = as.Date("2020-02-01"), y = max(amt) * 1.1), label = "2020-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
-  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.2), label = "2022-02",
+  geom_label(aes(x = as.Date("2022-02-01"), y = max(amt) * 1.1), label = "2022-02",
              fill = "white", color = "black", angle = 0, vjust = -0.5, hjust = 0.5, size = 4) +
   
   scale_y_continuous(name="Perscription Amount", limits = c(0, max(df$amt) * 1.2)) +
@@ -781,5 +784,18 @@ ggplot(data=df, aes(x = date, y = amt)) +
 
 
 
+
+
+
+
+
+
+
+#----
+
+
+coefficients_df %>% 
+  as_flex_table() %>% 
+  flextable::save_as_docx(path = "table2.docx")
 
 

@@ -73,47 +73,58 @@ IN_anti <- medicine_result_anti_hos2 %>%
   filter(OUT_IN_HOS == "IN") %>% 
   group_by(USE_MONTH,USE_YEAR, OUT_IN_HOS,date) %>% 
   summarise(category_pres = sum(category_pres), category_pt = sum(category_pt),
-            category_amt = sum(category_amt))
+            category_amt = sum(category_amt))%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_peni <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Penicillins")
+  filter(category == "Penicillins")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_cepha <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Cephalosporins")
+  filter(category == "Cephalosporins")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_cepha <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Cephalosporins")
+  filter(category == "Cephalosporins")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_tetra <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Tetracyclines")
+  filter(category == "Tetracyclines")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_macro <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Macrolides")
+  filter(category == "Macrolides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_glyco <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Glycopeptides")
+  filter(category == "Glycopeptides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_amino <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Aminoglycosides")
+  filter(category == "Aminoglycosides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_amphe <- medicine_result_anti_hos2 %>%
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Amphenicols")
+  filter(category == "Amphenicols")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_keto <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Ketolides")
+  filter(category == "Ketolides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 IN_other <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "IN") %>% 
-  filter(category == "Other")
+  filter(category == "Other")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 
 #csv파일로 저장
@@ -145,44 +156,53 @@ IN_other <- read_csv("MEDICINE/data/hos/in/IN_other_anti.csv")
 OUT_anti <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
   group_by(USE_MONTH, USE_YEAR, OUT_IN_HOS, date) %>% 
-  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), category_amt = sum(category_amt))
+  summarise(category_pres = sum(category_pres), category_pt = sum(category_pt), category_amt = sum(category_amt))%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_peni <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Penicillins")
+  filter(category == "Penicillins")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_cepha <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Cephalosporins")
+  filter(category == "Cephalosporins")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_tetra <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Tetracyclines")
+  filter(category == "Tetracyclines")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_macro <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Macrolides")
+  filter(category == "Macrolides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_glyco <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Glycopeptides")
+  filter(category == "Glycopeptides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_amino <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Aminoglycosides")
+  filter(category == "Aminoglycosides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_amphe <- medicine_result_anti_hos2 %>%
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Amphenicols")
+  filter(category == "Amphenicols")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_keto <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Ketolides")
+  filter(category == "Ketolides")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 OUT_other <- medicine_result_anti_hos2 %>% 
   filter(OUT_IN_HOS == "OUT") %>% 
-  filter(category == "Other")
-
+  filter(category == "Other")%>% 
+  arrange(USE_YEAR, USE_MONTH)
 
 #csv파일로 저장
 write.csv(OUT_anti, "MEDICINE/data/hos/out/OUT_anti.csv",row.names = FALSE)

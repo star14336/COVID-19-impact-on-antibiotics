@@ -33,7 +33,9 @@ medicine_result_anti2$date <- as.Date(paste(as.character(medicine_result_anti2$d
   ##total
   anti <- medicine_result_anti %>% 
     group_by(USE_YEAR,USE_MONTH) %>% 
-    summarise(category_pres = sum(pres), category_pt = sum(pt),category_amt = sum(amt))
+    summarise(category_pres = sum(pres), category_pt = sum(pt),category_amt = sum(amt)) %>%
+    arrange(USE_YEAR,USE_MONTH)
+    
   
   #날짜 만들기
   anti$date = paste0(anti$USE_YEAR,anti$USE_MONTH)
@@ -41,39 +43,48 @@ medicine_result_anti2$date <- as.Date(paste(as.character(medicine_result_anti2$d
   
   ##penicillin
   peni <- medicine_result_anti2 %>% 
-    filter(category == "Penicillins")
+    filter(category == "Penicillins")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##Cephalosporins
   cepha <- medicine_result_anti2 %>% 
-    filter(category == "Cephalosporins")
+    filter(category == "Cephalosporins")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##Tetracyclines
   tetra <- medicine_result_anti2 %>% 
-    filter(category == "Tetracyclines")
+    filter(category == "Tetracyclines")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##Macrolides
   macro <- medicine_result_anti2 %>% 
-    filter(category == "Macrolides")
+    filter(category == "Macrolides")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##Glycopeptides
   glyco <- medicine_result_anti2 %>% 
-    filter(category == "Glycopeptides")
+    filter(category == "Glycopeptides")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##Aminoglycosides
   amino <- medicine_result_anti2 %>% 
-    filter(category == "Aminoglycosides")
+    filter(category == "Aminoglycosides")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##Amphenicols
   amphe <- medicine_result_anti2 %>% 
-    filter(category == "Amphenicols")
+    filter(category == "Amphenicols")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##Ketolides
   keto <- medicine_result_anti2 %>% 
-    filter(category == "Ketolides")
+    filter(category == "Ketolides")%>% 
+    arrange(USE_YEAR, USE_MONTH)
   
   ##other
   other <- medicine_result_anti2 %>% 
-    filter(category == "Other")
+    filter(category == "Other")%>% 
+    arrange(USE_YEAR, USE_MONTH)
 }
 
 #csv파일로 저장
